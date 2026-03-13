@@ -11,6 +11,9 @@ export default {
       screens: { "2xl": "1400px" },
     },
     extend: {
+      gridTemplateColumns: {
+        '20': 'repeat(20, minmax(0, 1fr))',
+      },
       fontFamily: {
         display: ['"Geist Mono"', '"SF Mono"', '"Fira Code"', 'monospace'],
         body: ['"Inter Tight"', 'system-ui', 'sans-serif'],
