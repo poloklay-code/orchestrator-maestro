@@ -1,0 +1,52 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+interface ThemeState {
+  loginWallpaper: string | null;
+  favicon: string | null;
+  slogan: string;
+  profileName: string;
+  profileSlogan: string;
+  profileAvatar: string | null;
+  setLoginWallpaper: (url: string | null) => void;
+  setFavicon: (url: string | null) => void;
+  setSlogan: (s: string) => void;
+  setProfileName: (n: string) => void;
+  setProfileSlogan: (s: string) => void;
+  setProfileAvatar: (url: string | null) => void;
+}
+
+export const useThemeStore = create<ThemeState>()(
+  persist(
+    (set) => ({
+      loginWallpaper: null,
+      favicon: null,
+      slogan: "SOVEREIGN AUTOMATION COMMAND CENTER",
+      profileName: "OPERADOR",
+      profileSlogan: "Comandante da Frota",
+      profileAvatar: null,
+      setLoginWallpaper: (url) => {
+        set({ loginWallpaper: url });
+      },
+      setFavicon: (url) => {
+        set({ favicon: url });
+        if (url) {
+          const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+          if (link) {
+            link.href = url;
+          } else {
+            const newLink = document.createElement("link");
+            newLink.rel = "icon";
+            newLink.href = url;
+            document.head.appendChild(newLink);
+          }
+        }
+      },
+      setSlogan: (s) => set({ slogan: s }),
+      setProfileName: (n) => set({ profileName: n }),
+      setProfileSlogan: (s) => set({ profileSlogan: s }),
+      setProfileAvatar: (url) => set({ profileAvatar: url }),
+    }),
+    { name: "aether-theme" }
+  )
+);
