@@ -237,11 +237,82 @@ export default function CopyMasterPanel() {
         </div>
       </div>
 
-      {/* Generator */}
+      {/* AI Generator with Client Context */}
+      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <h3 className="text-sm font-semibold text-foreground">Gerador IA com Análise do Negócio do Cliente</h3>
+          </div>
+          <button onClick={() => setShowAiGenerator(!showAiGenerator)} className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-semibold hover:opacity-90 transition-all">
+            <Bot className="w-3.5 h-3.5" /> {showAiGenerator ? "Fechar" : "Gerar Copy com IA"}
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground mb-3">Descreva o negócio do cliente, insira o site ou Instagram — a IA analisa tudo e gera copies matadoras, humanizadas e focadas 100% em resultados.</p>
+
+        {showAiGenerator && (
+          <div className="space-y-3 p-4 rounded-lg border border-primary/20 bg-card">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Nome do Cliente *</label>
+                <input value={aiForm.clientName} onChange={(e) => setAiForm({ ...aiForm, clientName: e.target.value })} placeholder="Ex: Studio Digital Pro" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Tom da Copy</label>
+                <select value={aiForm.tone} onChange={(e) => setAiForm({ ...aiForm, tone: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  <option value="persuasivo">Persuasivo / Agressivo</option>
+                  <option value="humanizado">Humanizado / Natural</option>
+                  <option value="profissional">Profissional / Corporativo</option>
+                  <option value="casual">Casual / Descontraído</option>
+                  <option value="urgente">Urgente / Escassez</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Descrição do Negócio do Cliente * <span className="text-primary">(A IA usa isso para criar a copy perfeita)</span></label>
+              <textarea value={aiForm.businessDescription} onChange={(e) => setAiForm({ ...aiForm, businessDescription: e.target.value })} placeholder="Ex: Agência de marketing digital especializada em tráfego pago para e-commerces. Atende pequenas e médias empresas que querem escalar vendas online. Diferencial: automação completa com IA e atendimento humanizado." rows={3} className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
+            </div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block flex items-center gap-1"><Globe className="w-3 h-3" /> Site do Cliente <span className="text-primary">(IA analisa)</span></label>
+                <input value={aiForm.siteUrl} onChange={(e) => setAiForm({ ...aiForm, siteUrl: e.target.value })} placeholder="https://www.exemplo.com.br" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block flex items-center gap-1"><Users className="w-3 h-3" /> Instagram <span className="text-primary">(IA analisa)</span></label>
+                <input value={aiForm.instagramUrl} onChange={(e) => setAiForm({ ...aiForm, instagramUrl: e.target.value })} placeholder="@perfildocliente" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Público-Alvo</label>
+                <input value={aiForm.targetAudience} onChange={(e) => setAiForm({ ...aiForm, targetAudience: e.target.value })} placeholder="Empreendedores 25-55 anos" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Canal</label>
+                <select value={aiForm.channel} onChange={(e) => setAiForm({ ...aiForm, channel: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {CHANNELS.map((c) => <option key={c}>{c}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Objetivo</label>
+                <select value={aiForm.objective} onChange={(e) => setAiForm({ ...aiForm, objective: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {OBJECTIVES.map((o) => <option key={o}>{o}</option>)}
+                </select>
+              </div>
+            </div>
+            <button onClick={handleAiGenerate} disabled={generating} className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2 transition-all">
+              {generating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+              {generating ? "IA Analisando Negócio e Gerando Copies..." : "Gerar Copies com IA — Análise Completa"}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Quick Generator */}
       <div className="rounded-xl border border-border bg-card p-4">
         <div className="flex items-center gap-2 mb-4">
           <Sparkles className="w-4 h-4 text-primary" />
-          <h3 className="text-sm font-semibold text-foreground">Gerador de Copy & Criativos com IA</h3>
+          <h3 className="text-sm font-semibold text-foreground">Gerador Rápido A/B</h3>
         </div>
         <div className="grid sm:grid-cols-3 gap-3 mb-4">
           <div>
