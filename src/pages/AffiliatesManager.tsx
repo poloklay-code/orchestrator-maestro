@@ -25,6 +25,10 @@ export default function AffiliatesManager() {
   const [affiliates, setAffiliates] = useState<Affiliate[]>(DEMO_AFFILIATES);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [showAiGenerator, setShowAiGenerator] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [generatedCopy, setGeneratedCopy] = useState<string | null>(null);
+  const [aiForm, setAiForm] = useState({ clientName: "", businessDescription: "", siteUrl: "", instagramUrl: "", trafficType: "Tráfego Pago", destination: "E-commerce", platform: "Hotmart" });
   const [form, setForm] = useState({
     platform: "", product_name: "", product_id: "", client_name: "",
     commission_type: "percentage", commission_value: 0,
