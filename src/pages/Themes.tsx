@@ -120,7 +120,26 @@ export default function Themes() {
       ),
     },
     {
-      icon: Type, title: "SLOGAN DO PROGRAMA", delay: 0.2,
+      icon: Type, title: "NOME DO PROGRAMA", delay: 0.18,
+      desc: "Altere o nome do programa que aparece na sidebar, header e em todo o sistema.",
+      content: (
+        <div className="grid sm:grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Nome do Programa</label>
+            <input value={localProgramName} onChange={e => setLocalProgramName(e.target.value)} className="w-full h-10 px-4 rounded-lg bg-secondary border border-border text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="ORQUESTRADOR" />
+          </div>
+          <div className="space-y-1">
+            <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Versão</label>
+            <input value={localProgramVersion} onChange={e => setLocalProgramVersion(e.target.value)} className="w-full h-10 px-4 rounded-lg bg-secondary border border-border text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="v2.0.0" />
+          </div>
+          <button onClick={() => { store.setProgramName(localProgramName); store.setProgramVersion(localProgramVersion); toast.success("Nome do programa atualizado em todo o sistema"); }} className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-semibold uppercase tracking-wider hover:brightness-110 transition-all sm:col-span-2">
+            Salvar Nome
+          </button>
+        </div>
+      ),
+    },
+    {
+      icon: Type, title: "SLOGAN DO PROGRAMA", delay: 0.22,
       desc: "Aparece na tela de login e no cabeçalho do sistema.",
       content: (
         <div className="flex gap-3">

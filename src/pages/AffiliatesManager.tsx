@@ -115,6 +115,76 @@ export default function AffiliatesManager() {
         </div>
       )}
 
+      {/* AI Copy Generator for Affiliates */}
+      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <h3 className="text-sm font-semibold text-foreground">IA Gerador de Copy para Afiliados</h3>
+          </div>
+          <button onClick={() => setShowAiGenerator(!showAiGenerator)} className="flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-semibold hover:opacity-90">
+            <Bot className="w-3.5 h-3.5" /> {showAiGenerator ? "Fechar" : "Gerar Copy com IA"}
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground">Descreva o negócio, insira site ou Instagram — a IA analisa e gera copy matadora para tráfego pago e orgânico.</p>
+
+        {showAiGenerator && (
+          <div className="mt-3 space-y-3 p-4 rounded-lg border border-primary/20 bg-card">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Nome do Cliente *</label>
+                <input value={aiForm.clientName} onChange={e => setAiForm({ ...aiForm, clientName: e.target.value })} placeholder="Ex: Digital Pro" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Plataforma</label>
+                <select value={aiForm.platform} onChange={e => setAiForm({ ...aiForm, platform: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {AFFILIATE_PLATFORMS.map(p => <option key={p}>{p}</option>)}
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Descrição do Negócio *</label>
+              <textarea value={aiForm.businessDescription} onChange={e => setAiForm({ ...aiForm, businessDescription: e.target.value })} placeholder="Ex: Curso de marketing digital para iniciantes. Preço R$297. Público: empreendedores que querem aprender tráfego pago." rows={2} className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
+            </div>
+            <div className="grid sm:grid-cols-4 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Tipo de Tráfego</label>
+                <select value={aiForm.trafficType} onChange={e => setAiForm({ ...aiForm, trafficType: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {TRAFFIC_TYPES.map(t => <option key={t}>{t}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Destino</label>
+                <select value={aiForm.destination} onChange={e => setAiForm({ ...aiForm, destination: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {DESTINATIONS.map(d => <option key={d}>{d}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block flex items-center gap-1"><Globe className="w-3 h-3" /> Site</label>
+                <input value={aiForm.siteUrl} onChange={e => setAiForm({ ...aiForm, siteUrl: e.target.value })} placeholder="https://..." className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Instagram</label>
+                <input value={aiForm.instagramUrl} onChange={e => setAiForm({ ...aiForm, instagramUrl: e.target.value })} placeholder="@perfil" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+            </div>
+            <button onClick={handleAiGenerate} disabled={generating} className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
+              {generating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+              {generating ? "IA Analisando e Gerando Copy..." : "Gerar Copy Matadora com IA"}
+            </button>
+            {generatedCopy && (
+              <div className="p-4 rounded-lg bg-secondary/30 border border-border">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-[10px] font-bold text-primary uppercase">Copy Gerada pela IA</p>
+                  <button onClick={() => { navigator.clipboard.writeText(generatedCopy); toast.success("Copiado!"); }} className="text-xs text-primary hover:underline">Copiar</button>
+                </div>
+                <p className="text-sm text-foreground whitespace-pre-line leading-relaxed">{generatedCopy}</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* Search + Add */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="relative flex-1 max-w-sm">
