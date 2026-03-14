@@ -3,13 +3,14 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import {
   LayoutDashboard, Users, Briefcase, Activity, Shield, Bot, Link2, FileText,
   Settings, MessageSquare, LogOut, Menu, X, ChevronLeft, Zap, Store, Crown,
-  BarChart3, PenTool, Brain, Download, DollarSign, Key, MapPin, Boxes, Bell, Eye, UserCog,
+  BarChart3, PenTool, Brain, Download, DollarSign, Key, MapPin, Boxes, Bell, Eye, UserCog, Radio,
 } from "lucide-react";
 import OrchestratorBust from "@/components/OrchestratorBust";
 import { useThemeStore } from "@/stores/themeStore";
 
 const navItems = [
   { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
+  { href: "/dashboard/command-center", label: "AI Command Center", icon: Radio },
   { href: "/dashboard/clients", label: "Clientes", icon: Users },
   { href: "/dashboard/services", label: "Servicos", icon: Briefcase },
   { href: "/dashboard/governance", label: "Governanca", icon: Crown },
