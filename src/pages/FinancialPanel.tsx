@@ -19,8 +19,8 @@ const demoRecords: FinancialRecord[] = [
   { id: "1", platform: "Meta Ads", type: "expense", amount: 5200, description: "Campanha Facebook Q1", category: "trafego_pago", date: "2026-03-10", clientName: "João Silva" },
   { id: "2", platform: "Google Ads", type: "expense", amount: 3800, description: "Search + Display", category: "trafego_pago", date: "2026-03-09", clientName: "Maria Santos" },
   { id: "3", platform: "Hotmart", type: "revenue", amount: 12500, description: "Vendas curso digital", category: "afiliados", date: "2026-03-08", clientName: "João Silva" },
-  { id: "4", platform: "n8n", type: "expense", amount: 150, description: "Licença mensal", category: "ferramentas", date: "2026-03-07", clientName: null },
-  { id: "5", platform: "OpenAI", type: "expense", amount: 320, description: "API GPT-4", category: "ia", date: "2026-03-06", clientName: null },
+  { id: "4", platform: "n8n", type: "expense", amount: 150, description: "Licença mensal", category: "ferramentas", date: "2026-03-07", clientName: undefined },
+  { id: "5", platform: "OpenAI", type: "expense", amount: 320, description: "API GPT-4", category: "ia", date: "2026-03-06", clientName: undefined },
 ];
 
 const demoClients = [{ id: "1", name: "João Silva" }, { id: "2", name: "Maria Santos" }];

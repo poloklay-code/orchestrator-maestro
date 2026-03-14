@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { registerSW } from "virtual:pwa-register";
-import App from "./App.tsx";
+import App from "./App";
 import "./index.css";
 
 // Auto-update service worker — keeps desktop & mobile in sync
