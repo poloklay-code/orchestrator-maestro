@@ -6,6 +6,8 @@ interface ThemeState {
   favicon: string | null;
   appIcon: string | null;
   slogan: string;
+  programName: string;
+  programVersion: string;
   profileName: string;
   profileSlogan: string;
   profileAvatar: string | null;
@@ -13,6 +15,8 @@ interface ThemeState {
   setFavicon: (url: string | null) => void;
   setAppIcon: (url: string | null) => void;
   setSlogan: (s: string) => void;
+  setProgramName: (n: string) => void;
+  setProgramVersion: (v: string) => void;
   setProfileName: (n: string) => void;
   setProfileSlogan: (s: string) => void;
   setProfileAvatar: (url: string | null) => void;
