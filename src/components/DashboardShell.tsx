@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, Briefcase, Activity, Shield, Bot, Link2, FileText,
   Settings, MessageSquare, LogOut, Menu, X, ChevronLeft, Zap, Store, Crown,
   BarChart3, PenTool, Brain, Download, DollarSign, Key, MapPin, Boxes, Bell, UserCog, Radio,
-  Factory, GitBranch, Compass, Calculator, Radar, Sparkles, Rocket, FileSignature, ShieldAlert,
+  Factory, GitBranch, Compass, Calculator, Radar, Sparkles, Rocket, FileSignature, ShieldAlert, Eye, Palette,
 } from "lucide-react";
 import OrchestratorBust from "@/components/OrchestratorBust";
 import { useThemeStore } from "@/stores/themeStore";
@@ -17,6 +17,7 @@ const navSections = [
       { href: "/dashboard/command-center", label: "AI Command Center", icon: Radio },
       { href: "/dashboard/production", label: "Produção IA", icon: Factory },
       { href: "/dashboard/workflows", label: "Workflows", icon: GitBranch },
+      { href: "/dashboard/operations", label: "AI Operations", icon: Eye },
     ],
   },
   {
@@ -69,6 +70,7 @@ const navSections = [
       { href: "/dashboard/integrations", label: "Integrações", icon: Link2 },
       { href: "/dashboard/install", label: "Instalar App", icon: Download },
       { href: "/dashboard/settings", label: "Configurações", icon: Settings },
+      { href: "/dashboard/themes", label: "Temas & Custom.", icon: Palette },
     ],
   },
 ];

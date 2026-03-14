@@ -37,6 +37,7 @@ import OpportunityDetector from "./pages/OpportunityDetector";
 import AutoScaleAI from "./pages/AutoScaleAI";
 import ContractsManager from "./pages/ContractsManager";
 import ClientRiskAnalyzer from "./pages/ClientRiskAnalyzer";
+import AIOperationsVisualizer from "./pages/AIOperationsVisualizer";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -57,6 +58,8 @@ const App = () => (
           <Route path="/dashboard/command-center" element={<DashboardLayout><AICommandCenter /></DashboardLayout>} />
           <Route path="/dashboard/production" element={<DashboardLayout><AIProductionCenter /></DashboardLayout>} />
           <Route path="/dashboard/workflows" element={<DashboardLayout><WorkflowViewer /></DashboardLayout>} />
+          <Route path="/dashboard/operations" element={<DashboardLayout><AIOperationsVisualizer /></DashboardLayout>} />
+          <Route path="/dashboard/themes" element={<DashboardLayout><Themes /></DashboardLayout>} />
           <Route path="/dashboard/strategy" element={<DashboardLayout><StrategyEngine /></DashboardLayout>} />
           <Route path="/dashboard/roi" element={<DashboardLayout><ROISimulator /></DashboardLayout>} />
           <Route path="/dashboard/competitors" element={<DashboardLayout><CompetitorRadar /></DashboardLayout>} />
@@ -69,7 +72,7 @@ const App = () => (
           <Route path="/dashboard/integrations" element={<DashboardLayout><IntegrationsHub /></DashboardLayout>} />
           <Route path="/dashboard/reports" element={<DashboardLayout><ReportsPanel /></DashboardLayout>} />
           <Route path="/dashboard/settings" element={<DashboardLayout><SettingsPanel /></DashboardLayout>} />
-          <Route path="/themes" element={<Themes />} />
+          <Route path="/themes" element={<DashboardLayout><Themes /></DashboardLayout>} />
           <Route path="/dashboard/clients" element={<DashboardLayout><ClientsManager /></DashboardLayout>} />
           <Route path="/dashboard/services" element={<DashboardLayout><ServicesManager /></DashboardLayout>} />
           <Route path="/dashboard/governance" element={<DashboardLayout><GovernancePanel /></DashboardLayout>} />
