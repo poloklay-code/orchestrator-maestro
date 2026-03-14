@@ -29,6 +29,8 @@ export const useThemeStore = create<ThemeState>()(
       favicon: null,
       appIcon: null,
       slogan: "SOVEREIGN AUTOMATION COMMAND CENTER",
+      programName: "ORQUESTRADOR",
+      programVersion: "v2.0.0",
       profileName: "OPERADOR",
       profileSlogan: "Comandante da Frota",
       profileAvatar: null,
