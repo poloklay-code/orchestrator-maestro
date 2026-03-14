@@ -17,7 +17,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex relative overflow-hidden bg-background">
-      {/* Wallpaper background */}
+      {/* Full wallpaper background */}
       {loginWallpaper && (
         <div
           className="absolute inset-0 z-0"
@@ -25,13 +25,19 @@ export default function Login() {
             backgroundImage: `url(${loginWallpaper})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            filter: "blur(40px) brightness(0.5)",
           }}
         />
       )}
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-orchestrator z-[1]" />
+      {/* Dark overlay on wallpaper */}
+      {loginWallpaper && (
+        <div className="absolute inset-0 z-[1] bg-black/60" />
+      )}
+
+      {/* Default gradient overlay (no wallpaper) */}
+      {!loginWallpaper && (
+        <div className="absolute inset-0 bg-orchestrator z-[1]" />
+      )}
 
       {/* Login Form — Left */}
       <motion.div
@@ -59,7 +65,7 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full h-11 px-4 rounded-md bg-secondary border border-border text-foreground font-body text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                className="w-full h-11 px-4 rounded-md bg-secondary/80 backdrop-blur-sm border border-border text-foreground font-body text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                 placeholder="operador@aether.cmd"
               />
             </div>
@@ -71,7 +77,7 @@ export default function Login() {
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full h-11 px-4 rounded-md bg-secondary border border-border text-foreground font-body text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                className="w-full h-11 px-4 rounded-md bg-secondary/80 backdrop-blur-sm border border-border text-foreground font-body text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                 placeholder="••••••••"
               />
             </div>
