@@ -96,6 +96,9 @@ export default function AutomationsManager() {
   const [showForm, setShowForm] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [viewingAuto, setViewingAuto] = useState<Automation | null>(null);
+  const [showAiGenerator, setShowAiGenerator] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [aiForm, setAiForm] = useState({ clientName: "", businessDescription: "", siteUrl: "", instagramUrl: "", platform: "n8n", objective: "Lead Capture" });
   const [form, setForm] = useState({ client_id: "", platform: "", workflow_name: "", status: "active", trigger_type: "webhook" });
 
   const filtered = automations.filter((a) =>
