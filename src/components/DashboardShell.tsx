@@ -92,7 +92,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const [showNotifications, setShowNotifications] = useState(false);
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
-  const { profileName, profileSlogan, profileAvatar } = useThemeStore();
+  const { profileName, profileSlogan, profileAvatar, programName, programVersion } = useThemeStore();
 
   const handleLogout = () => {
     navigate("/");
