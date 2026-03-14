@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, Briefcase, Activity, Shield, Bot, Link2, FileText,
   Settings, MessageSquare, LogOut, Menu, X, ChevronLeft, Zap, Store, Crown,
   BarChart3, PenTool, Brain, Download, DollarSign, Key, MapPin, Boxes, Bell, UserCog, Radio,
-  Factory, GitBranch, Compass, Calculator, Radar, Sparkles, Rocket, FileSignature, ShieldAlert,
+  Factory, GitBranch, Compass, Calculator, Radar, Sparkles, Rocket, FileSignature, ShieldAlert, Eye, Palette,
 } from "lucide-react";
 import OrchestratorBust from "@/components/OrchestratorBust";
 import { useThemeStore } from "@/stores/themeStore";
