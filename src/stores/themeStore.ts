@@ -4,12 +4,14 @@ import { persist } from "zustand/middleware";
 interface ThemeState {
   loginWallpaper: string | null;
   favicon: string | null;
+  appIcon: string | null;
   slogan: string;
   profileName: string;
   profileSlogan: string;
   profileAvatar: string | null;
   setLoginWallpaper: (url: string | null) => void;
   setFavicon: (url: string | null) => void;
+  setAppIcon: (url: string | null) => void;
   setSlogan: (s: string) => void;
   setProfileName: (n: string) => void;
   setProfileSlogan: (s: string) => void;
@@ -21,20 +23,17 @@ export const useThemeStore = create<ThemeState>()(
     (set) => ({
       loginWallpaper: null,
       favicon: null,
+      appIcon: null,
       slogan: "SOVEREIGN AUTOMATION COMMAND CENTER",
       profileName: "OPERADOR",
       profileSlogan: "Comandante da Frota",
       profileAvatar: null,
-      setLoginWallpaper: (url) => {
-        set({ loginWallpaper: url });
-      },
+      setLoginWallpaper: (url) => set({ loginWallpaper: url }),
       setFavicon: (url) => {
         set({ favicon: url });
         if (url) {
           const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-          if (link) {
-            link.href = url;
-          } else {
+          if (link) { link.href = url; } else {
             const newLink = document.createElement("link");
             newLink.rel = "icon";
             newLink.href = url;
@@ -42,6 +41,7 @@ export const useThemeStore = create<ThemeState>()(
           }
         }
       },
+      setAppIcon: (url) => set({ appIcon: url }),
       setSlogan: (s) => set({ slogan: s }),
       setProfileName: (n) => set({ profileName: n }),
       setProfileSlogan: (s) => set({ profileSlogan: s }),
