@@ -17,6 +17,7 @@ const navSections = [
       { href: "/dashboard/command-center", label: "AI Command Center", icon: Radio },
       { href: "/dashboard/production", label: "Produção IA", icon: Factory },
       { href: "/dashboard/workflows", label: "Workflows", icon: GitBranch },
+      { href: "/dashboard/operations", label: "AI Operations", icon: Eye },
     ],
   },
   {
