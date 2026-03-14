@@ -58,6 +58,8 @@ const App = () => (
           <Route path="/dashboard/command-center" element={<DashboardLayout><AICommandCenter /></DashboardLayout>} />
           <Route path="/dashboard/production" element={<DashboardLayout><AIProductionCenter /></DashboardLayout>} />
           <Route path="/dashboard/workflows" element={<DashboardLayout><WorkflowViewer /></DashboardLayout>} />
+          <Route path="/dashboard/operations" element={<DashboardLayout><AIOperationsVisualizer /></DashboardLayout>} />
+          <Route path="/dashboard/themes" element={<DashboardLayout><Themes /></DashboardLayout>} />
           <Route path="/dashboard/strategy" element={<DashboardLayout><StrategyEngine /></DashboardLayout>} />
           <Route path="/dashboard/roi" element={<DashboardLayout><ROISimulator /></DashboardLayout>} />
           <Route path="/dashboard/competitors" element={<DashboardLayout><CompetitorRadar /></DashboardLayout>} />

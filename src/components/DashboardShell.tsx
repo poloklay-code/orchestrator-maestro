@@ -70,6 +70,7 @@ const navSections = [
       { href: "/dashboard/integrations", label: "Integrações", icon: Link2 },
       { href: "/dashboard/install", label: "Instalar App", icon: Download },
       { href: "/dashboard/settings", label: "Configurações", icon: Settings },
+      { href: "/dashboard/themes", label: "Temas & Custom.", icon: Palette },
     ],
   },
 ];
