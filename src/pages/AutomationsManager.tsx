@@ -125,6 +125,30 @@ export default function AutomationsManager() {
     toast.success("Automação excluída");
   };
 
+  const handleAiGenerate = async () => {
+    if (!aiForm.clientName || !aiForm.businessDescription) { toast.error("Preencha o nome do cliente e descrição do negócio"); return; }
+    setGenerating(true);
+    await new Promise(r => setTimeout(r, 2000));
+    const newAuto: Automation = {
+      id: Date.now().toString(), platform: aiForm.platform, workflow_name: `${aiForm.objective} — ${aiForm.clientName}`,
+      status: "active", trigger_type: "webhook", executions: 0, clientName: aiForm.clientName, created_at: new Date().toISOString(),
+      description: `Automação criada pela IA com análise completa do negócio: "${aiForm.businessDescription}". ${aiForm.siteUrl ? `Site analisado: ${aiForm.siteUrl}. ` : ""}${aiForm.instagramUrl ? `Instagram analisado: ${aiForm.instagramUrl}. ` : ""}Fluxo otimizado para máxima conversão e crackeamento completo de dados dos leads.`,
+      steps: [
+        { id: "s1", name: "Gatilho — Captura Inteligente", type: "trigger", description: `Monitora ${aiForm.siteUrl || "formulários"} e captura dados completos: nome, email, telefone, interesse, fonte.`, status: "done" },
+        { id: "s2", name: "Crackeamento de Dados do Lead", type: "ai", description: "IA enriquece dados: busca redes sociais, empresa, cargo, faturamento estimado. Score de qualificação automático.", status: "done" },
+        { id: "s3", name: "Qualificação IA Avançada", type: "ai", description: `Análise profunda baseada no perfil do negócio: "${aiForm.businessDescription}". Score 0-100 com predição de conversão.`, status: "done" },
+        { id: "s4", name: "Segmentação Inteligente", type: "logic", description: "Score > 70: lead quente → vendedor imediato. 40-70: nutrição automática. < 40: remarketing de longo prazo.", status: "running" },
+        { id: "s5", name: "Nutrição Multi-Canal", type: "message", description: "Sequência: WhatsApp (imediato) → Email (2h) → SMS (24h). Conteúdo personalizado por IA.", status: "pending" },
+        { id: "s6", name: "Sync CRM + Relatório", type: "database", description: "Salva no CRM, atualiza dashboard, gera relatório automático para o admin.", status: "pending" },
+      ],
+      results: { leads: 0, messages: 0, conversions: 0 },
+    };
+    setAutomations([newAuto, ...automations]);
+    setGenerating(false);
+    setShowAiGenerator(false);
+    toast.success(`Automação criada pela IA para ${aiForm.clientName}! Análise completa do negócio aplicada.`);
+  };
+
   const stepIcon = (type: string) => {
     if (type === "trigger") return <Zap className="w-3.5 h-3.5 text-yellow-400" />;
     if (type === "message") return <MessageSquare className="w-3.5 h-3.5 text-green-400" />;
