@@ -189,6 +189,60 @@ export default function AutomationsManager() {
         </div>
       </div>
 
+      {/* AI Generator */}
+      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Bot className="w-4 h-4 text-primary" />
+            <h3 className="text-sm font-semibold text-foreground">IA Gerador de Automações — Análise do Negócio</h3>
+          </div>
+          <button onClick={() => setShowAiGenerator(!showAiGenerator)} className="flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-semibold hover:opacity-90">
+            <Bot className="w-3.5 h-3.5" /> {showAiGenerator ? "Fechar" : "Criar com IA"}
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground">Descreva o negócio do cliente, insira site ou Instagram — a IA cria automações completas com crackeamento de dados dos leads.</p>
+        {showAiGenerator && (
+          <div className="mt-3 space-y-3 p-4 rounded-lg border border-primary/20 bg-card">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Nome do Cliente *</label>
+                <input value={aiForm.clientName} onChange={e => setAiForm({ ...aiForm, clientName: e.target.value })} placeholder="Ex: Studio Digital" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Plataforma</label>
+                <select value={aiForm.platform} onChange={e => setAiForm({ ...aiForm, platform: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {AUTOMATION_PLATFORMS.map(p => <option key={p}>{p}</option>)}
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Descrição do Negócio do Cliente *</label>
+              <textarea value={aiForm.businessDescription} onChange={e => setAiForm({ ...aiForm, businessDescription: e.target.value })} placeholder="Ex: Agência de marketing digital que atende e-commerces. Precisa capturar leads do site, qualificar e enviar para WhatsApp." rows={2} className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
+            </div>
+            <div className="grid sm:grid-cols-3 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Site do Cliente</label>
+                <input value={aiForm.siteUrl} onChange={e => setAiForm({ ...aiForm, siteUrl: e.target.value })} placeholder="https://..." className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Instagram</label>
+                <input value={aiForm.instagramUrl} onChange={e => setAiForm({ ...aiForm, instagramUrl: e.target.value })} placeholder="@perfil" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Objetivo</label>
+                <select value={aiForm.objective} onChange={e => setAiForm({ ...aiForm, objective: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  <option>Lead Capture</option><option>Follow-up</option><option>Cobrança</option><option>Onboarding</option><option>Remarketing</option><option>Sync CRM</option>
+                </select>
+              </div>
+            </div>
+            <button onClick={handleAiGenerate} disabled={generating} className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
+              {generating ? <Clock className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+              {generating ? "IA Criando Automação..." : "Criar Automação com IA — Análise Completa"}
+            </button>
+          </div>
+        )}
+      </div>
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
