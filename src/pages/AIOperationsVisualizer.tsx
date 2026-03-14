@@ -466,10 +466,12 @@ export default function AIOperationsVisualizer() {
                   )}
 
                   {/* Chatbot Detail */}
-                  {selectedOp.detail.kind === "chatbot" && (
+                  {selectedOp.detail.kind === "chatbot" && (() => {
+                    const d = selectedOp.detail.data;
+                    return (
                     <div className="space-y-2">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Blocos do Fluxo</h4>
-                      {selectedOp.detail.data.blocks.map((block, i) => (
+                      {d.blocks.map((block, i) => (
                         <div key={i}>
                           <div className={`flex items-center gap-3 p-3 rounded-xl border border-border ${
                             block.type === "ai" ? "bg-primary/5 border-primary/30" : "bg-secondary/20"
@@ -491,13 +493,14 @@ export default function AIOperationsVisualizer() {
                               <p className="text-[10px] text-muted-foreground capitalize">{block.type}</p>
                             </div>
                           </div>
-                          {i < selectedOp.detail.data.blocks.length - 1 && (
+                          {i < d.blocks.length - 1 && (
                             <div className="flex justify-center py-1"><ArrowDown className="w-3 h-3 text-muted-foreground" /></div>
                           )}
                         </div>
                       ))}
                     </div>
-                  )}
+                    );
+                  })()}
 
                   {/* Debug Detail */}
                   {selectedOp.detail.kind === "debug" && (
