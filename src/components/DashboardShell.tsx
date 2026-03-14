@@ -119,7 +119,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           <OrchestratorBust size="small" className="w-8 h-8 flex-shrink-0" />
           {!collapsed && (
             <div className="overflow-hidden">
-              <h2 className="text-sm font-bold text-foreground truncate font-display">ORQUESTRADOR</h2>
+              <h2 className="text-sm font-bold text-foreground truncate font-display">{programName}</h2>
               <p className="text-[10px] font-semibold text-primary truncate">Centro de Operações Digitais</p>
             </div>
           )}
