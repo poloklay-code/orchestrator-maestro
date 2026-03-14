@@ -411,10 +411,12 @@ export default function AIOperationsVisualizer() {
                   )}
 
                   {/* Funnel Detail */}
-                  {selectedOp.detail.kind === "funnel" && (
+                  {selectedOp.detail.kind === "funnel" && (() => {
+                    const d = selectedOp.detail.data;
+                    return (
                     <div className="space-y-2">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Etapas do Funil</h4>
-                      {selectedOp.detail.data.stages.map((stage, i) => (
+                      {d.stages.map((stage, i) => (
                         <div key={i}>
                           <div className="flex items-center gap-3 p-3 rounded-xl border border-border bg-secondary/20">
                             <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-xs font-bold text-purple-400">{i + 1}</div>
@@ -423,13 +425,14 @@ export default function AIOperationsVisualizer() {
                             </div>
                             <span className="text-xs font-mono text-accent">Conv. {stage.conversionRate}</span>
                           </div>
-                          {i < selectedOp.detail.data.stages.length - 1 && (
+                          {i < d.stages.length - 1 && (
                             <div className="flex justify-center py-1"><ArrowDown className="w-3 h-3 text-muted-foreground" /></div>
                           )}
                         </div>
                       ))}
                     </div>
-                  )}
+                    );
+                  })()}
 
                   {/* GBP Detail */}
                   {selectedOp.detail.kind === "gbp" && (
