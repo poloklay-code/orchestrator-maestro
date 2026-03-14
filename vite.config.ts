@@ -61,7 +61,7 @@ export default defineConfig(({ mode }) => ({
         clientsClaim: true,
       },
       devOptions: {
-        enabled: false,
+        enabled: true,
       },
     }),
   ].filter(Boolean),
