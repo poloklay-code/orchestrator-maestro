@@ -28,6 +28,15 @@ import ApiKeysPanel from "./pages/ApiKeysPanel";
 import AgentForgePanel from "./pages/AgentForgePanel";
 import AffiliatesManager from "./pages/AffiliatesManager";
 import AICommandCenter from "./pages/AICommandCenter";
+import AIProductionCenter from "./pages/AIProductionCenter";
+import WorkflowViewer from "./pages/WorkflowViewer";
+import StrategyEngine from "./pages/StrategyEngine";
+import ROISimulator from "./pages/ROISimulator";
+import CompetitorRadar from "./pages/CompetitorRadar";
+import OpportunityDetector from "./pages/OpportunityDetector";
+import AutoScaleAI from "./pages/AutoScaleAI";
+import ContractsManager from "./pages/ContractsManager";
+import ClientRiskAnalyzer from "./pages/ClientRiskAnalyzer";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +55,15 @@ const App = () => (
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<DashboardLayout><DashboardOverview /></DashboardLayout>} />
           <Route path="/dashboard/command-center" element={<DashboardLayout><AICommandCenter /></DashboardLayout>} />
+          <Route path="/dashboard/production" element={<DashboardLayout><AIProductionCenter /></DashboardLayout>} />
+          <Route path="/dashboard/workflows" element={<DashboardLayout><WorkflowViewer /></DashboardLayout>} />
+          <Route path="/dashboard/strategy" element={<DashboardLayout><StrategyEngine /></DashboardLayout>} />
+          <Route path="/dashboard/roi" element={<DashboardLayout><ROISimulator /></DashboardLayout>} />
+          <Route path="/dashboard/competitors" element={<DashboardLayout><CompetitorRadar /></DashboardLayout>} />
+          <Route path="/dashboard/opportunities" element={<DashboardLayout><OpportunityDetector /></DashboardLayout>} />
+          <Route path="/dashboard/auto-scale" element={<DashboardLayout><AutoScaleAI /></DashboardLayout>} />
+          <Route path="/dashboard/contracts" element={<DashboardLayout><ContractsManager /></DashboardLayout>} />
+          <Route path="/dashboard/risk" element={<DashboardLayout><ClientRiskAnalyzer /></DashboardLayout>} />
           <Route path="/dashboard/monitoring" element={<DashboardLayout><MonitoringDashboard /></DashboardLayout>} />
           <Route path="/dashboard/memory" element={<DashboardLayout><StrategicMemory /></DashboardLayout>} />
           <Route path="/dashboard/integrations" element={<DashboardLayout><IntegrationsHub /></DashboardLayout>} />
