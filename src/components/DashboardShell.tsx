@@ -10,6 +10,7 @@ import { useThemeStore } from "@/stores/themeStore";
 
 const navItems = [
   { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
+  { href: "/dashboard/command-center", label: "AI Command Center", icon: Radio },
   { href: "/dashboard/clients", label: "Clientes", icon: Users },
   { href: "/dashboard/services", label: "Servicos", icon: Briefcase },
   { href: "/dashboard/governance", label: "Governanca", icon: Crown },
