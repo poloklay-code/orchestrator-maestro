@@ -49,6 +49,8 @@ export const useThemeStore = create<ThemeState>()(
       },
       setAppIcon: (url) => set({ appIcon: url }),
       setSlogan: (s) => set({ slogan: s }),
+      setProgramName: (n) => set({ programName: n }),
+      setProgramVersion: (v) => set({ programVersion: v }),
       setProfileName: (n) => set({ profileName: n }),
       setProfileSlogan: (s) => set({ profileSlogan: s }),
       setProfileAvatar: (url) => set({ profileAvatar: url }),
