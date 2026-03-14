@@ -24,7 +24,9 @@ import CredentialsPanel from "./pages/CredentialsPanel";
 import GoogleBusinessPanel from "./pages/GoogleBusinessPanel";
 import AssistantChat from "./pages/AssistantChat";
 import InstallPanel from "./pages/InstallPanel";
-import PlaceholderPage from "./pages/PlaceholderPage";
+import ApiKeysPanel from "./pages/ApiKeysPanel";
+import AgentForgePanel from "./pages/AgentForgePanel";
+import AffiliatesManager from "./pages/AffiliatesManager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -60,9 +62,9 @@ const App = () => (
           <Route path="/dashboard/google-business" element={<DashboardLayout><GoogleBusinessPanel /></DashboardLayout>} />
           <Route path="/dashboard/assistant" element={<DashboardLayout><AssistantChat /></DashboardLayout>} />
           <Route path="/dashboard/install" element={<DashboardLayout><InstallPanel /></DashboardLayout>} />
-          <Route path="/dashboard/affiliates" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/api-keys" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/agent-forge" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
+          <Route path="/dashboard/affiliates" element={<DashboardLayout><AffiliatesManager /></DashboardLayout>} />
+          <Route path="/dashboard/api-keys" element={<DashboardLayout><ApiKeysPanel /></DashboardLayout>} />
+          <Route path="/dashboard/agent-forge" element={<DashboardLayout><AgentForgePanel /></DashboardLayout>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
