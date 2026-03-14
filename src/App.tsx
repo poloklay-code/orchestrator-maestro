@@ -12,6 +12,18 @@ import IntegrationsHub from "./pages/IntegrationsHub";
 import ReportsPanel from "./pages/ReportsPanel";
 import SettingsPanel from "./pages/SettingsPanel";
 import Themes from "./pages/Themes";
+import ClientsManager from "./pages/ClientsManager";
+import ServicesManager from "./pages/ServicesManager";
+import GovernancePanel from "./pages/GovernancePanel";
+import AuditLog from "./pages/AuditLog";
+import AutomationsManager from "./pages/AutomationsManager";
+import CopyMasterPanel from "./pages/CopyMasterPanel";
+import ProposalsManager from "./pages/ProposalsManager";
+import FinancialPanel from "./pages/FinancialPanel";
+import CredentialsPanel from "./pages/CredentialsPanel";
+import GoogleBusinessPanel from "./pages/GoogleBusinessPanel";
+import AssistantChat from "./pages/AssistantChat";
+import InstallPanel from "./pages/InstallPanel";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import NotFound from "./pages/NotFound";
 
@@ -36,22 +48,21 @@ const App = () => (
           <Route path="/dashboard/reports" element={<DashboardLayout><ReportsPanel /></DashboardLayout>} />
           <Route path="/dashboard/settings" element={<DashboardLayout><SettingsPanel /></DashboardLayout>} />
           <Route path="/themes" element={<Themes />} />
-          {/* Placeholder pages for modules in development */}
-          <Route path="/dashboard/clients" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/services" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/governance" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/audit" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/automations" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
+          <Route path="/dashboard/clients" element={<DashboardLayout><ClientsManager /></DashboardLayout>} />
+          <Route path="/dashboard/services" element={<DashboardLayout><ServicesManager /></DashboardLayout>} />
+          <Route path="/dashboard/governance" element={<DashboardLayout><GovernancePanel /></DashboardLayout>} />
+          <Route path="/dashboard/audit" element={<DashboardLayout><AuditLog /></DashboardLayout>} />
+          <Route path="/dashboard/automations" element={<DashboardLayout><AutomationsManager /></DashboardLayout>} />
+          <Route path="/dashboard/copymaster" element={<DashboardLayout><CopyMasterPanel /></DashboardLayout>} />
+          <Route path="/dashboard/proposals" element={<DashboardLayout><ProposalsManager /></DashboardLayout>} />
+          <Route path="/dashboard/financial" element={<DashboardLayout><FinancialPanel /></DashboardLayout>} />
+          <Route path="/dashboard/credentials" element={<DashboardLayout><CredentialsPanel /></DashboardLayout>} />
+          <Route path="/dashboard/google-business" element={<DashboardLayout><GoogleBusinessPanel /></DashboardLayout>} />
+          <Route path="/dashboard/assistant" element={<DashboardLayout><AssistantChat /></DashboardLayout>} />
+          <Route path="/dashboard/install" element={<DashboardLayout><InstallPanel /></DashboardLayout>} />
           <Route path="/dashboard/affiliates" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/copymaster" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/proposals" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/financial" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
           <Route path="/dashboard/api-keys" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/credentials" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/google-business" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
           <Route path="/dashboard/agent-forge" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/assistant" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
-          <Route path="/dashboard/install" element={<DashboardLayout><PlaceholderPage /></DashboardLayout>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
