@@ -346,7 +346,7 @@ export default function AIOperationsVisualizer() {
                               </p>
                             </div>
                           </div>
-                          {i < selectedOp.detail.steps.length - 1 && (
+                          {i < (selectedOp.detail as { kind: "workflow"; steps: WorkflowStep[] }).steps.length - 1 && (
                             <div className="flex justify-center py-1"><ArrowDown className="w-3 h-3 text-muted-foreground" /></div>
                           )}
                         </div>
