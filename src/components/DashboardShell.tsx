@@ -201,7 +201,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               <h1 className="text-sm font-semibold text-foreground">
                 {allNavItems.find((n) => n.href === pathname || (n.href !== "/dashboard" && pathname.startsWith(n.href)))?.label || "Painel"}
               </h1>
-              <p className="text-[10px] font-display text-muted-foreground">ORQUESTRADOR MAESTRO v2.0.0</p>
+              <p className="text-[10px] font-display text-muted-foreground">{programName} MAESTRO {programVersion}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
