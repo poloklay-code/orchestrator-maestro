@@ -355,15 +355,17 @@ export default function AIOperationsVisualizer() {
                   )}
 
                   {/* Campaign Detail */}
-                  {selectedOp.detail.kind === "campaign" && (
+                  {selectedOp.detail.kind === "campaign" && (() => {
+                    const d = selectedOp.detail.data;
+                    return (
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-3">
                         {[
-                          { label: "Objetivo", value: selectedOp.detail.data.objective },
-                          { label: "Orçamento", value: selectedOp.detail.data.budget },
-                          { label: "Público", value: selectedOp.detail.data.audience },
-                          { label: "Localização", value: selectedOp.detail.data.location },
-                          { label: "Idade", value: selectedOp.detail.data.age },
+                          { label: "Objetivo", value: d.objective },
+                          { label: "Orçamento", value: d.budget },
+                          { label: "Público", value: d.audience },
+                          { label: "Localização", value: d.location },
+                          { label: "Idade", value: d.age },
                         ].map((f) => (
                           <div key={f.label} className="p-3 rounded-lg bg-secondary/30 border border-border/50">
                             <p className="text-[10px] text-muted-foreground uppercase">{f.label}</p>
@@ -372,12 +374,12 @@ export default function AIOperationsVisualizer() {
                         ))}
                       </div>
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Anúncios Criados</h4>
-                      {selectedOp.detail.data.copies.map((copy, i) => (
+                      {d.copies.map((copy, i) => (
                         <div key={i} className="p-4 rounded-xl border border-border bg-secondary/20">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex gap-2">
                               <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-semibold">Versão {copy.version}</span>
-                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">{selectedOp.detail.data.objective}</span>
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">{d.objective}</span>
                             </div>
                             <span className="text-xs text-accent font-mono flex items-center gap-1"><BarChart3 className="w-3 h-3" /> CTR {copy.ctr}</span>
                           </div>
@@ -385,7 +387,8 @@ export default function AIOperationsVisualizer() {
                         </div>
                       ))}
                     </div>
-                  )}
+                    );
+                  })()}
 
                   {/* Copy Detail */}
                   {selectedOp.detail.kind === "copy" && (
