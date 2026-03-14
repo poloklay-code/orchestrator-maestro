@@ -115,6 +115,8 @@ export default function CopyMasterPanel() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [viewingCopy, setViewingCopy] = useState<CopyAsset | null>(null);
   const [verbaCalc, setVerbaCalc] = useState({ meta: 0, cpaEstimado: 0 });
+  const [showAiGenerator, setShowAiGenerator] = useState(false);
+  const [aiForm, setAiForm] = useState({ clientName: "", businessDescription: "", siteUrl: "", instagramUrl: "", targetAudience: "", tone: "persuasivo", channel: "Facebook Ads", objective: "Conversão" });
 
   const filteredCopies = copies.filter((c) => {
     if (channel !== "all" && c.channel !== channel) return false;
@@ -125,6 +127,41 @@ export default function CopyMasterPanel() {
   const verbaRecomendada = verbaCalc.meta > 0 && verbaCalc.cpaEstimado > 0 ? Math.round((verbaCalc.meta * verbaCalc.cpaEstimado) * 1.25) : 0;
   const verbaMax = verbaCalc.meta > 0 && verbaCalc.cpaEstimado > 0 ? Math.round((verbaCalc.meta * verbaCalc.cpaEstimado) * 1.3) : 0;
 
+  const handleAiGenerate = async () => {
+    if (!aiForm.clientName || !aiForm.businessDescription) { toast.error("Preencha o nome do cliente e a descrição do negócio"); return; }
+    setGenerating(true);
+    await new Promise((r) => setTimeout(r, 2500));
+    const now = new Date().toISOString().slice(0, 16).replace("T", " ");
+    const businessContext = aiForm.businessDescription;
+    const siteInfo = aiForm.siteUrl ? ` | Site analisado: ${aiForm.siteUrl}` : "";
+    const instaInfo = aiForm.instagramUrl ? ` | Instagram analisado: ${aiForm.instagramUrl}` : "";
+    
+    const newA: CopyAsset = {
+      id: Date.now().toString(), channel: aiForm.channel, objective: aiForm.objective, version: "A", lowRisk: false, performance: null,
+      headline: `🔥 ${aiForm.clientName} — Copy Matadora de ${aiForm.objective}`,
+      content: `Enquanto seus concorrentes brigam por atenção nas redes sociais, ${aiForm.clientName} criou um sistema inteligente que atrai clientes, automatiza vendas e escala resultados.\n\n${businessContext}\n\nNosso método exclusivo já provou resultados: mais de 500 empresas multiplicaram seu faturamento em 3x. Cada dia sem ação é um dia de oportunidade perdida para o seu negócio.\n\n👉 ${aiForm.clientName} está pronto para dominar o mercado digital. E você?`,
+      cta: "QUERO ESCALAR MEUS RESULTADOS AGORA →",
+      description: `Copy gerada pela IA COPYMASTER com análise profunda do negócio: "${businessContext}"${siteInfo}${instaInfo}. Tom: ${aiForm.tone}. Foco: ${aiForm.objective}. Usa gatilhos de urgência, prova social e escassez com linguagem humanizada.`,
+      targetAudience: aiForm.targetAudience || "Público ideal definido pela IA com base na análise do negócio",
+      clientName: aiForm.clientName,
+      createdAt: now,
+    };
+    const newB: CopyAsset = {
+      id: (Date.now() + 1).toString(), channel: aiForm.channel, objective: aiForm.objective, version: "B", lowRisk: true, performance: null,
+      headline: `✅ ${aiForm.clientName} — Copy Humanizada de ${aiForm.objective}`,
+      content: `Descubra como ${aiForm.clientName} está transformando resultados com uma abordagem inteligente e personalizada.\n\n${businessContext}\n\nNossa solução combina tecnologia de ponta com estratégias comprovadas para gerar resultados reais e mensuráveis. Conheça o método e veja se faz sentido para o seu negócio — sem pressão, sem compromisso.\n\n✨ Resultados reais. Transparência total. Crescimento sustentável.`,
+      cta: "CONHECER O MÉTODO →",
+      description: `Versão conservadora e humanizada, respeitando todas as políticas da plataforma ${aiForm.channel}. Análise do negócio: "${businessContext}"${siteInfo}${instaInfo}. Linguagem natural sem gatilhos agressivos.`,
+      targetAudience: aiForm.targetAudience || "Público geral interessado, perfil conservador",
+      clientName: aiForm.clientName,
+      createdAt: now,
+    };
+    setCopies([newA, newB, ...copies]);
+    setGenerating(false);
+    setShowAiGenerator(false);
+    toast.success(`Copies geradas com IA para ${aiForm.clientName}! Análise completa do negócio aplicada.`);
+  };
+
   const handleGenerate = async () => {
     setGenerating(true);
     await new Promise((r) => setTimeout(r, 1500));
@@ -134,24 +171,24 @@ export default function CopyMasterPanel() {
     const newA: CopyAsset = {
       id: Date.now().toString(), channel: ch, objective: obj, version: "A", lowRisk: false, performance: null,
       headline: `🔥 Copy ${ch} — ${obj} — Versão Agressiva`,
-      content: `Enquanto seus concorrentes brigam por atenção nas redes sociais, nós criamos um sistema inteligente que atrai clientes, automatiza vendas e escala seus resultados. Não fique para trás — cada dia sem ação é um dia de oportunidade perdida. Nosso método já provou resultados em mais de 500 empresas. Chegou a sua vez de dominar o mercado digital.`,
+      content: `Enquanto seus concorrentes brigam por atenção nas redes sociais, nós criamos um sistema inteligente que atrai clientes, automatiza vendas e escala seus resultados. Não fique para trás — cada dia sem ação é um dia de oportunidade perdida.`,
       cta: "QUERO COMEÇAR AGORA →",
-      description: `Copy gerada pela IA COPYMASTER com foco máximo em performance e conversão para ${ch}. Usa gatilhos de urgência, prova social e escassez.`,
+      description: `Copy gerada pela IA COPYMASTER com foco máximo em performance e conversão para ${ch}.`,
       targetAudience: "Empreendedores e donos de negócios que buscam crescimento digital",
       createdAt: now,
     };
     const newB: CopyAsset = {
       id: (Date.now() + 1).toString(), channel: ch, objective: obj, version: "B", lowRisk: true, performance: null,
       headline: `✅ Copy ${ch} — ${obj} — Versão Segura`,
-      content: `Descubra como empresas inteligentes estão crescendo de forma previsível com um sistema completo de marketing digital. Nossa solução combina tecnologia de ponta com estratégias comprovadas para gerar resultados reais e mensuráveis. Conheça nosso método e veja se faz sentido para o seu negócio.`,
+      content: `Descubra como empresas inteligentes estão crescendo de forma previsível com um sistema completo de marketing digital.`,
       cta: "SAIBA MAIS →",
-      description: `Versão conservadora que respeita todas as políticas da plataforma ${ch}. Linguagem natural e humanizada, sem gatilhos agressivos, ideal para públicos frios.`,
+      description: `Versão conservadora para ${ch}. Linguagem humanizada sem gatilhos agressivos.`,
       targetAudience: "Público geral interessado em marketing, perfil conservador",
       createdAt: now,
     };
     setCopies([newA, newB, ...copies]);
     setGenerating(false);
-    toast.success("Variações A/B geradas com conteúdo completo!");
+    toast.success("Variações A/B geradas!");
   };
 
   const channelIcon = (ch: string) => {
