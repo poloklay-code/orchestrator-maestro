@@ -72,7 +72,7 @@ const App = () => (
           <Route path="/dashboard/integrations" element={<DashboardLayout><IntegrationsHub /></DashboardLayout>} />
           <Route path="/dashboard/reports" element={<DashboardLayout><ReportsPanel /></DashboardLayout>} />
           <Route path="/dashboard/settings" element={<DashboardLayout><SettingsPanel /></DashboardLayout>} />
-          <Route path="/themes" element={<Themes />} />
+          <Route path="/themes" element={<DashboardLayout><Themes /></DashboardLayout>} />
           <Route path="/dashboard/clients" element={<DashboardLayout><ClientsManager /></DashboardLayout>} />
           <Route path="/dashboard/services" element={<DashboardLayout><ServicesManager /></DashboardLayout>} />
           <Route path="/dashboard/governance" element={<DashboardLayout><GovernancePanel /></DashboardLayout>} />
