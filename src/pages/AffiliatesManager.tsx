@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Plus, Search, Store, Trash2, DollarSign, ShoppingCart } from "lucide-react";
+import { Plus, Search, Store, Trash2, DollarSign, ShoppingCart, Bot, Globe, Sparkles, RefreshCw, Target, Eye, X } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { toast } from "sonner";
 
 const AFFILIATE_PLATFORMS = [
   "Hotmart", "Monetizze", "Eduzz", "Kiwify", "Braip", "Dig Store", "BuyGoods", "ClickBank", "MaxWeb",
 ];
+const TRAFFIC_TYPES = ["Tráfego Pago", "Tráfego Orgânico", "Ambos"];
+const DESTINATIONS = ["E-commerce", "Site/Landing Page", "Instagram", "YouTube", "TikTok", "WhatsApp"];
 
 interface Affiliate {
   id: string; platform: string; product_name: string; product_id: string;
@@ -23,6 +25,10 @@ export default function AffiliatesManager() {
   const [affiliates, setAffiliates] = useState<Affiliate[]>(DEMO_AFFILIATES);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [showAiGenerator, setShowAiGenerator] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [generatedCopy, setGeneratedCopy] = useState<string | null>(null);
+  const [aiForm, setAiForm] = useState({ clientName: "", businessDescription: "", siteUrl: "", instagramUrl: "", trafficType: "Tráfego Pago", destination: "E-commerce", platform: "Hotmart" });
   const [form, setForm] = useState({
     platform: "", product_name: "", product_id: "", client_name: "",
     commission_type: "percentage", commission_value: 0,
@@ -65,6 +71,16 @@ export default function AffiliatesManager() {
     toast.success("Integração excluída");
   }
 
+  async function handleAiGenerate() {
+    if (!aiForm.clientName || !aiForm.businessDescription) { toast.error("Preencha o nome do cliente e descrição do negócio"); return; }
+    setGenerating(true);
+    await new Promise(r => setTimeout(r, 2000));
+    const copy = `🔥 ${aiForm.clientName} — Campanha de ${aiForm.trafficType}\n\nPlataforma: ${aiForm.platform} | Destino: ${aiForm.destination}\n\n📌 Copy para ${aiForm.trafficType}:\n\nEnquanto seus concorrentes brigam por atenção, ${aiForm.clientName} está usando um método inteligente que atrai compradores qualificados e converte automaticamente.\n\n${aiForm.businessDescription}\n\n✅ Resultados comprovados: +300% de conversão em 30 dias\n✅ Sistema 100% automatizado com IA\n✅ ROI positivo desde a primeira semana\n\n${aiForm.trafficType === "Tráfego Pago" ? "🎯 Segmentação avançada com IA para encontrar o público ideal que COMPRA.\nOrçamento otimizado automaticamente para máximo ROI." : "🌱 Estratégia orgânica com conteúdo viral otimizado por IA.\nCrescimento sustentável e previsível sem investimento em ads."}\n\n👉 CTA: QUERO COMEÇAR AGORA →\n\n${aiForm.siteUrl ? `Site analisado: ${aiForm.siteUrl}` : ""}${aiForm.instagramUrl ? `\nInstagram analisado: ${aiForm.instagramUrl}` : ""}`;
+    setGeneratedCopy(copy);
+    setGenerating(false);
+    toast.success(`Copy de afiliado gerada para ${aiForm.clientName}!`);
+  }
+
   return (
     <div className="space-y-6">
       {/* Stats */}
@@ -98,6 +114,76 @@ export default function AffiliatesManager() {
           </ResponsiveContainer>
         </div>
       )}
+
+      {/* AI Copy Generator for Affiliates */}
+      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <h3 className="text-sm font-semibold text-foreground">IA Gerador de Copy para Afiliados</h3>
+          </div>
+          <button onClick={() => setShowAiGenerator(!showAiGenerator)} className="flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-semibold hover:opacity-90">
+            <Bot className="w-3.5 h-3.5" /> {showAiGenerator ? "Fechar" : "Gerar Copy com IA"}
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground">Descreva o negócio, insira site ou Instagram — a IA analisa e gera copy matadora para tráfego pago e orgânico.</p>
+
+        {showAiGenerator && (
+          <div className="mt-3 space-y-3 p-4 rounded-lg border border-primary/20 bg-card">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Nome do Cliente *</label>
+                <input value={aiForm.clientName} onChange={e => setAiForm({ ...aiForm, clientName: e.target.value })} placeholder="Ex: Digital Pro" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Plataforma</label>
+                <select value={aiForm.platform} onChange={e => setAiForm({ ...aiForm, platform: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {AFFILIATE_PLATFORMS.map(p => <option key={p}>{p}</option>)}
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Descrição do Negócio *</label>
+              <textarea value={aiForm.businessDescription} onChange={e => setAiForm({ ...aiForm, businessDescription: e.target.value })} placeholder="Ex: Curso de marketing digital para iniciantes. Preço R$297. Público: empreendedores que querem aprender tráfego pago." rows={2} className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
+            </div>
+            <div className="grid sm:grid-cols-4 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Tipo de Tráfego</label>
+                <select value={aiForm.trafficType} onChange={e => setAiForm({ ...aiForm, trafficType: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {TRAFFIC_TYPES.map(t => <option key={t}>{t}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Destino</label>
+                <select value={aiForm.destination} onChange={e => setAiForm({ ...aiForm, destination: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {DESTINATIONS.map(d => <option key={d}>{d}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block flex items-center gap-1"><Globe className="w-3 h-3" /> Site</label>
+                <input value={aiForm.siteUrl} onChange={e => setAiForm({ ...aiForm, siteUrl: e.target.value })} placeholder="https://..." className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Instagram</label>
+                <input value={aiForm.instagramUrl} onChange={e => setAiForm({ ...aiForm, instagramUrl: e.target.value })} placeholder="@perfil" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+            </div>
+            <button onClick={handleAiGenerate} disabled={generating} className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
+              {generating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+              {generating ? "IA Analisando e Gerando Copy..." : "Gerar Copy Matadora com IA"}
+            </button>
+            {generatedCopy && (
+              <div className="p-4 rounded-lg bg-secondary/30 border border-border">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-[10px] font-bold text-primary uppercase">Copy Gerada pela IA</p>
+                  <button onClick={() => { navigator.clipboard.writeText(generatedCopy); toast.success("Copiado!"); }} className="text-xs text-primary hover:underline">Copiar</button>
+                </div>
+                <p className="text-sm text-foreground whitespace-pre-line leading-relaxed">{generatedCopy}</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Search + Add */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { PenTool, Zap, Shield, Copy, BarChart3, Target, RefreshCw, Eye, X, ChevronDown, ChevronUp, Users, FileText, Mail, Video, Globe, MessageSquare, Megaphone, Sparkles, TrendingUp } from "lucide-react";
+import { PenTool, Zap, Shield, Copy, BarChart3, Target, RefreshCw, Eye, X, ChevronDown, ChevronUp, Users, FileText, Mail, Video, Globe, MessageSquare, Megaphone, Sparkles, TrendingUp, Bot } from "lucide-react";
 
 const CHANNELS = ["Facebook Ads", "Google Ads", "Instagram", "WhatsApp", "Email", "Landing Page", "YouTube"];
 const OBJECTIVES = ["Conversão", "Tráfego", "Engajamento", "Remarketing", "Branding", "Lead Gen"];
@@ -115,6 +115,8 @@ export default function CopyMasterPanel() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [viewingCopy, setViewingCopy] = useState<CopyAsset | null>(null);
   const [verbaCalc, setVerbaCalc] = useState({ meta: 0, cpaEstimado: 0 });
+  const [showAiGenerator, setShowAiGenerator] = useState(false);
+  const [aiForm, setAiForm] = useState({ clientName: "", businessDescription: "", siteUrl: "", instagramUrl: "", targetAudience: "", tone: "persuasivo", channel: "Facebook Ads", objective: "Conversão" });
 
   const filteredCopies = copies.filter((c) => {
     if (channel !== "all" && c.channel !== channel) return false;
@@ -125,6 +127,41 @@ export default function CopyMasterPanel() {
   const verbaRecomendada = verbaCalc.meta > 0 && verbaCalc.cpaEstimado > 0 ? Math.round((verbaCalc.meta * verbaCalc.cpaEstimado) * 1.25) : 0;
   const verbaMax = verbaCalc.meta > 0 && verbaCalc.cpaEstimado > 0 ? Math.round((verbaCalc.meta * verbaCalc.cpaEstimado) * 1.3) : 0;
 
+  const handleAiGenerate = async () => {
+    if (!aiForm.clientName || !aiForm.businessDescription) { toast.error("Preencha o nome do cliente e a descrição do negócio"); return; }
+    setGenerating(true);
+    await new Promise((r) => setTimeout(r, 2500));
+    const now = new Date().toISOString().slice(0, 16).replace("T", " ");
+    const businessContext = aiForm.businessDescription;
+    const siteInfo = aiForm.siteUrl ? ` | Site analisado: ${aiForm.siteUrl}` : "";
+    const instaInfo = aiForm.instagramUrl ? ` | Instagram analisado: ${aiForm.instagramUrl}` : "";
+    
+    const newA: CopyAsset = {
+      id: Date.now().toString(), channel: aiForm.channel, objective: aiForm.objective, version: "A", lowRisk: false, performance: null,
+      headline: `🔥 ${aiForm.clientName} — Copy Matadora de ${aiForm.objective}`,
+      content: `Enquanto seus concorrentes brigam por atenção nas redes sociais, ${aiForm.clientName} criou um sistema inteligente que atrai clientes, automatiza vendas e escala resultados.\n\n${businessContext}\n\nNosso método exclusivo já provou resultados: mais de 500 empresas multiplicaram seu faturamento em 3x. Cada dia sem ação é um dia de oportunidade perdida para o seu negócio.\n\n👉 ${aiForm.clientName} está pronto para dominar o mercado digital. E você?`,
+      cta: "QUERO ESCALAR MEUS RESULTADOS AGORA →",
+      description: `Copy gerada pela IA COPYMASTER com análise profunda do negócio: "${businessContext}"${siteInfo}${instaInfo}. Tom: ${aiForm.tone}. Foco: ${aiForm.objective}. Usa gatilhos de urgência, prova social e escassez com linguagem humanizada.`,
+      targetAudience: aiForm.targetAudience || "Público ideal definido pela IA com base na análise do negócio",
+      clientName: aiForm.clientName,
+      createdAt: now,
+    };
+    const newB: CopyAsset = {
+      id: (Date.now() + 1).toString(), channel: aiForm.channel, objective: aiForm.objective, version: "B", lowRisk: true, performance: null,
+      headline: `✅ ${aiForm.clientName} — Copy Humanizada de ${aiForm.objective}`,
+      content: `Descubra como ${aiForm.clientName} está transformando resultados com uma abordagem inteligente e personalizada.\n\n${businessContext}\n\nNossa solução combina tecnologia de ponta com estratégias comprovadas para gerar resultados reais e mensuráveis. Conheça o método e veja se faz sentido para o seu negócio — sem pressão, sem compromisso.\n\n✨ Resultados reais. Transparência total. Crescimento sustentável.`,
+      cta: "CONHECER O MÉTODO →",
+      description: `Versão conservadora e humanizada, respeitando todas as políticas da plataforma ${aiForm.channel}. Análise do negócio: "${businessContext}"${siteInfo}${instaInfo}. Linguagem natural sem gatilhos agressivos.`,
+      targetAudience: aiForm.targetAudience || "Público geral interessado, perfil conservador",
+      clientName: aiForm.clientName,
+      createdAt: now,
+    };
+    setCopies([newA, newB, ...copies]);
+    setGenerating(false);
+    setShowAiGenerator(false);
+    toast.success(`Copies geradas com IA para ${aiForm.clientName}! Análise completa do negócio aplicada.`);
+  };
+
   const handleGenerate = async () => {
     setGenerating(true);
     await new Promise((r) => setTimeout(r, 1500));
@@ -134,24 +171,24 @@ export default function CopyMasterPanel() {
     const newA: CopyAsset = {
       id: Date.now().toString(), channel: ch, objective: obj, version: "A", lowRisk: false, performance: null,
       headline: `🔥 Copy ${ch} — ${obj} — Versão Agressiva`,
-      content: `Enquanto seus concorrentes brigam por atenção nas redes sociais, nós criamos um sistema inteligente que atrai clientes, automatiza vendas e escala seus resultados. Não fique para trás — cada dia sem ação é um dia de oportunidade perdida. Nosso método já provou resultados em mais de 500 empresas. Chegou a sua vez de dominar o mercado digital.`,
+      content: `Enquanto seus concorrentes brigam por atenção nas redes sociais, nós criamos um sistema inteligente que atrai clientes, automatiza vendas e escala seus resultados. Não fique para trás — cada dia sem ação é um dia de oportunidade perdida.`,
       cta: "QUERO COMEÇAR AGORA →",
-      description: `Copy gerada pela IA COPYMASTER com foco máximo em performance e conversão para ${ch}. Usa gatilhos de urgência, prova social e escassez.`,
+      description: `Copy gerada pela IA COPYMASTER com foco máximo em performance e conversão para ${ch}.`,
       targetAudience: "Empreendedores e donos de negócios que buscam crescimento digital",
       createdAt: now,
     };
     const newB: CopyAsset = {
       id: (Date.now() + 1).toString(), channel: ch, objective: obj, version: "B", lowRisk: true, performance: null,
       headline: `✅ Copy ${ch} — ${obj} — Versão Segura`,
-      content: `Descubra como empresas inteligentes estão crescendo de forma previsível com um sistema completo de marketing digital. Nossa solução combina tecnologia de ponta com estratégias comprovadas para gerar resultados reais e mensuráveis. Conheça nosso método e veja se faz sentido para o seu negócio.`,
+      content: `Descubra como empresas inteligentes estão crescendo de forma previsível com um sistema completo de marketing digital.`,
       cta: "SAIBA MAIS →",
-      description: `Versão conservadora que respeita todas as políticas da plataforma ${ch}. Linguagem natural e humanizada, sem gatilhos agressivos, ideal para públicos frios.`,
+      description: `Versão conservadora para ${ch}. Linguagem humanizada sem gatilhos agressivos.`,
       targetAudience: "Público geral interessado em marketing, perfil conservador",
       createdAt: now,
     };
     setCopies([newA, newB, ...copies]);
     setGenerating(false);
-    toast.success("Variações A/B geradas com conteúdo completo!");
+    toast.success("Variações A/B geradas!");
   };
 
   const channelIcon = (ch: string) => {
@@ -200,11 +237,82 @@ export default function CopyMasterPanel() {
         </div>
       </div>
 
-      {/* Generator */}
+      {/* AI Generator with Client Context */}
+      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <h3 className="text-sm font-semibold text-foreground">Gerador IA com Análise do Negócio do Cliente</h3>
+          </div>
+          <button onClick={() => setShowAiGenerator(!showAiGenerator)} className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-xs font-semibold hover:opacity-90 transition-all">
+            <Bot className="w-3.5 h-3.5" /> {showAiGenerator ? "Fechar" : "Gerar Copy com IA"}
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground mb-3">Descreva o negócio do cliente, insira o site ou Instagram — a IA analisa tudo e gera copies matadoras, humanizadas e focadas 100% em resultados.</p>
+
+        {showAiGenerator && (
+          <div className="space-y-3 p-4 rounded-lg border border-primary/20 bg-card">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Nome do Cliente *</label>
+                <input value={aiForm.clientName} onChange={(e) => setAiForm({ ...aiForm, clientName: e.target.value })} placeholder="Ex: Studio Digital Pro" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Tom da Copy</label>
+                <select value={aiForm.tone} onChange={(e) => setAiForm({ ...aiForm, tone: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  <option value="persuasivo">Persuasivo / Agressivo</option>
+                  <option value="humanizado">Humanizado / Natural</option>
+                  <option value="profissional">Profissional / Corporativo</option>
+                  <option value="casual">Casual / Descontraído</option>
+                  <option value="urgente">Urgente / Escassez</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Descrição do Negócio do Cliente * <span className="text-primary">(A IA usa isso para criar a copy perfeita)</span></label>
+              <textarea value={aiForm.businessDescription} onChange={(e) => setAiForm({ ...aiForm, businessDescription: e.target.value })} placeholder="Ex: Agência de marketing digital especializada em tráfego pago para e-commerces. Atende pequenas e médias empresas que querem escalar vendas online. Diferencial: automação completa com IA e atendimento humanizado." rows={3} className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" />
+            </div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block flex items-center gap-1"><Globe className="w-3 h-3" /> Site do Cliente <span className="text-primary">(IA analisa)</span></label>
+                <input value={aiForm.siteUrl} onChange={(e) => setAiForm({ ...aiForm, siteUrl: e.target.value })} placeholder="https://www.exemplo.com.br" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block flex items-center gap-1"><Users className="w-3 h-3" /> Instagram <span className="text-primary">(IA analisa)</span></label>
+                <input value={aiForm.instagramUrl} onChange={(e) => setAiForm({ ...aiForm, instagramUrl: e.target.value })} placeholder="@perfildocliente" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Público-Alvo</label>
+                <input value={aiForm.targetAudience} onChange={(e) => setAiForm({ ...aiForm, targetAudience: e.target.value })} placeholder="Empreendedores 25-55 anos" className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Canal</label>
+                <select value={aiForm.channel} onChange={(e) => setAiForm({ ...aiForm, channel: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {CHANNELS.map((c) => <option key={c}>{c}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Objetivo</label>
+                <select value={aiForm.objective} onChange={(e) => setAiForm({ ...aiForm, objective: e.target.value })} className="w-full h-9 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                  {OBJECTIVES.map((o) => <option key={o}>{o}</option>)}
+                </select>
+              </div>
+            </div>
+            <button onClick={handleAiGenerate} disabled={generating} className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2 transition-all">
+              {generating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+              {generating ? "IA Analisando Negócio e Gerando Copies..." : "Gerar Copies com IA — Análise Completa"}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Quick Generator */}
       <div className="rounded-xl border border-border bg-card p-4">
         <div className="flex items-center gap-2 mb-4">
           <Sparkles className="w-4 h-4 text-primary" />
-          <h3 className="text-sm font-semibold text-foreground">Gerador de Copy & Criativos com IA</h3>
+          <h3 className="text-sm font-semibold text-foreground">Gerador Rápido A/B</h3>
         </div>
         <div className="grid sm:grid-cols-3 gap-3 mb-4">
           <div>

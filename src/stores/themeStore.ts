@@ -6,6 +6,8 @@ interface ThemeState {
   favicon: string | null;
   appIcon: string | null;
   slogan: string;
+  programName: string;
+  programVersion: string;
   profileName: string;
   profileSlogan: string;
   profileAvatar: string | null;
@@ -13,6 +15,8 @@ interface ThemeState {
   setFavicon: (url: string | null) => void;
   setAppIcon: (url: string | null) => void;
   setSlogan: (s: string) => void;
+  setProgramName: (n: string) => void;
+  setProgramVersion: (v: string) => void;
   setProfileName: (n: string) => void;
   setProfileSlogan: (s: string) => void;
   setProfileAvatar: (url: string | null) => void;
@@ -25,6 +29,8 @@ export const useThemeStore = create<ThemeState>()(
       favicon: null,
       appIcon: null,
       slogan: "SOVEREIGN AUTOMATION COMMAND CENTER",
+      programName: "ORQUESTRADOR",
+      programVersion: "v2.0.0",
       profileName: "OPERADOR",
       profileSlogan: "Comandante da Frota",
       profileAvatar: null,
@@ -43,6 +49,8 @@ export const useThemeStore = create<ThemeState>()(
       },
       setAppIcon: (url) => set({ appIcon: url }),
       setSlogan: (s) => set({ slogan: s }),
+      setProgramName: (n) => set({ programName: n }),
+      setProgramVersion: (v) => set({ programVersion: v }),
       setProfileName: (n) => set({ profileName: n }),
       setProfileSlogan: (s) => set({ profileSlogan: s }),
       setProfileAvatar: (url) => set({ profileAvatar: url }),
