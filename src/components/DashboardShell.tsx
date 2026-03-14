@@ -3,41 +3,85 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import {
   LayoutDashboard, Users, Briefcase, Activity, Shield, Bot, Link2, FileText,
   Settings, MessageSquare, LogOut, Menu, X, ChevronLeft, Zap, Store, Crown,
-  BarChart3, PenTool, Brain, Download, DollarSign, Key, MapPin, Boxes, Bell, Eye, UserCog, Radio,
+  BarChart3, PenTool, Brain, Download, DollarSign, Key, MapPin, Boxes, Bell, UserCog, Radio,
+  Factory, GitBranch, Compass, Calculator, Radar, Sparkles, Rocket, FileSignature, ShieldAlert,
 } from "lucide-react";
 import OrchestratorBust from "@/components/OrchestratorBust";
 import { useThemeStore } from "@/stores/themeStore";
 
-const navItems = [
-  { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
-  { href: "/dashboard/command-center", label: "AI Command Center", icon: Radio },
-  { href: "/dashboard/clients", label: "Clientes", icon: Users },
-  { href: "/dashboard/services", label: "Servicos", icon: Briefcase },
-  { href: "/dashboard/governance", label: "Governanca", icon: Crown },
-  { href: "/dashboard/monitoring", label: "Monitoramento IA", icon: Activity },
-  { href: "/dashboard/audit", label: "Auditoria", icon: Shield },
-  { href: "/dashboard/automations", label: "Automacoes", icon: Zap },
-  { href: "/dashboard/affiliates", label: "Afiliados", icon: Store },
-  { href: "/dashboard/copymaster", label: "CopyMaster", icon: PenTool },
-  { href: "/dashboard/proposals", label: "Propostas", icon: FileText },
-  { href: "/dashboard/reports", label: "Relatorios", icon: BarChart3 },
-  { href: "/dashboard/memory", label: "Memoria Estrategica", icon: Brain },
-  { href: "/dashboard/financial", label: "Financeiro", icon: DollarSign },
-  { href: "/dashboard/api-keys", label: "Chaves de API", icon: Key },
-  { href: "/dashboard/credentials", label: "Credenciais Clientes", icon: UserCog },
-  { href: "/dashboard/google-business", label: "Google Meu Negocio", icon: MapPin },
-  { href: "/dashboard/agent-forge", label: "Agent Forge", icon: Boxes },
-  { href: "/dashboard/integrations", label: "Integracoes", icon: Link2 },
-  { href: "/dashboard/assistant", label: "Assistente IA", icon: Bot },
-  { href: "/dashboard/install", label: "Instalar App", icon: Download },
-  { href: "/dashboard/settings", label: "Configuracoes", icon: Settings },
+const navSections = [
+  {
+    title: "COMANDO",
+    items: [
+      { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
+      { href: "/dashboard/command-center", label: "AI Command Center", icon: Radio },
+      { href: "/dashboard/production", label: "Produção IA", icon: Factory },
+      { href: "/dashboard/workflows", label: "Workflows", icon: GitBranch },
+    ],
+  },
+  {
+    title: "ESTRATÉGIA",
+    items: [
+      { href: "/dashboard/strategy", label: "Strategy Engine", icon: Compass },
+      { href: "/dashboard/roi", label: "ROI Simulator", icon: Calculator },
+      { href: "/dashboard/competitors", label: "Competitor Radar", icon: Radar },
+      { href: "/dashboard/opportunities", label: "Oportunidades", icon: Sparkles },
+      { href: "/dashboard/auto-scale", label: "Auto Scale AI", icon: Rocket },
+    ],
+  },
+  {
+    title: "OPERAÇÕES",
+    items: [
+      { href: "/dashboard/clients", label: "Clientes", icon: Users },
+      { href: "/dashboard/risk", label: "Risco de Clientes", icon: ShieldAlert },
+      { href: "/dashboard/services", label: "Serviços", icon: Briefcase },
+      { href: "/dashboard/automations", label: "Automações", icon: Zap },
+      { href: "/dashboard/copymaster", label: "CopyMaster", icon: PenTool },
+      { href: "/dashboard/google-business", label: "Google Negócio", icon: MapPin },
+      { href: "/dashboard/affiliates", label: "Afiliados", icon: Store },
+    ],
+  },
+  {
+    title: "FINANCEIRO",
+    items: [
+      { href: "/dashboard/financial", label: "Financeiro", icon: DollarSign },
+      { href: "/dashboard/contracts", label: "Contratos", icon: FileSignature },
+      { href: "/dashboard/proposals", label: "Propostas", icon: FileText },
+    ],
+  },
+  {
+    title: "INTELIGÊNCIA",
+    items: [
+      { href: "/dashboard/monitoring", label: "Monitoramento IA", icon: Activity },
+      { href: "/dashboard/memory", label: "Memória Estratégica", icon: Brain },
+      { href: "/dashboard/reports", label: "Relatórios", icon: BarChart3 },
+      { href: "/dashboard/agent-forge", label: "Agent Forge", icon: Boxes },
+      { href: "/dashboard/assistant", label: "Assistente IA", icon: Bot },
+    ],
+  },
+  {
+    title: "SISTEMA",
+    items: [
+      { href: "/dashboard/governance", label: "Governança", icon: Crown },
+      { href: "/dashboard/audit", label: "Auditoria", icon: Shield },
+      { href: "/dashboard/credentials", label: "Credenciais", icon: UserCog },
+      { href: "/dashboard/api-keys", label: "Chaves de API", icon: Key },
+      { href: "/dashboard/integrations", label: "Integrações", icon: Link2 },
+      { href: "/dashboard/install", label: "Instalar App", icon: Download },
+      { href: "/dashboard/settings", label: "Configurações", icon: Settings },
+    ],
+  },
 ];
 
+const allNavItems = navSections.flatMap((s) => s.items);
+
 const notifications = [
-  { id: 1, text: "Sistema online ha 24h sem interrupcoes", type: "success", time: "2min" },
-  { id: 2, text: "Nova automacao concluida com sucesso", type: "info", time: "15min" },
-  { id: 3, text: "Atualizacao v1.1.0 disponivel", type: "warning", time: "1h" },
-  { id: 4, text: "Relatorio semanal pronto para revisao", type: "info", time: "2h" },
+  { id: 1, text: "Sistema online há 24h sem interrupções", type: "success", time: "2min" },
+  { id: 2, text: "IA-CopyMaster gerou 5 anúncios para Tech Solutions", type: "info", time: "5min" },
+  { id: 3, text: "Campanha E-commerce escalada +20% automaticamente", type: "info", time: "15min" },
+  { id: 4, text: "Alerta: InfoProduto BR — 2 meses sem pagamento", type: "warning", time: "1h" },
+  { id: 5, text: "Novo concorrente detectado: Growth Lab", type: "info", time: "2h" },
+  { id: 6, text: "Oportunidade detectada: IA para PMEs (+340%)", type: "success", time: "3h" },
 ];
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
@@ -74,7 +118,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           {!collapsed && (
             <div className="overflow-hidden">
               <h2 className="text-sm font-bold text-foreground truncate font-display">ORQUESTRADOR</h2>
-              <p className="text-[10px] font-semibold text-primary truncate">Centro de Operacoes Digitais</p>
+              <p className="text-[10px] font-semibold text-primary truncate">Centro de Operações Digitais</p>
             </div>
           )}
           <button
@@ -92,27 +136,38 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.href}
-                to={item.href}
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all ${
-                  isActive
-                    ? "bg-primary/10 text-primary border border-primary/20"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                } ${collapsed ? "justify-center" : ""}`}
-                title={collapsed ? item.label : undefined}
-              >
-                <Icon className="w-4 h-4 flex-shrink-0" />
-                {!collapsed && <span className="truncate">{item.label}</span>}
-              </Link>
-            );
-          })}
+        <nav className="flex-1 overflow-y-auto py-2 px-2">
+          {navSections.map((section) => (
+            <div key={section.title} className="mb-2">
+              {!collapsed && (
+                <p className="px-3 py-1.5 text-[9px] font-bold tracking-[0.2em] text-muted-foreground uppercase">
+                  {section.title}
+                </p>
+              )}
+              <div className="space-y-0.5">
+                {section.items.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs transition-all ${
+                        isActive
+                          ? "bg-primary/10 text-primary border border-primary/20"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                      } ${collapsed ? "justify-center" : ""}`}
+                      title={collapsed ? item.label : undefined}
+                    >
+                      <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                      {!collapsed && <span className="truncate">{item.label}</span>}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         {/* Bottom */}
@@ -142,14 +197,14 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             </button>
             <div>
               <h1 className="text-sm font-semibold text-foreground">
-                {navItems.find((n) => n.href === pathname || (n.href !== "/dashboard" && pathname.startsWith(n.href)))?.label || "Painel"}
+                {allNavItems.find((n) => n.href === pathname || (n.href !== "/dashboard" && pathname.startsWith(n.href)))?.label || "Painel"}
               </h1>
-              <p className="text-[10px] font-display text-muted-foreground">ORQUESTRADOR MAESTRO v1.0.0</p>
+              <p className="text-[10px] font-display text-muted-foreground">ORQUESTRADOR MAESTRO v2.0.0</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 text-xs font-display">
-              <span className="w-2 h-2 rounded-full bg-ai-active glow-pulse" />
+              <span className="w-2 h-2 rounded-full bg-green-400 glow-pulse" />
               <span className="text-muted-foreground hidden sm:inline">Sistema Online 24/7</span>
             </div>
 
@@ -178,18 +233,18 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               {showNotifications && (
                 <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden">
                   <div className="p-3 border-b border-border flex items-center justify-between">
-                    <h4 className="text-xs font-semibold text-foreground">Notificacoes</h4>
+                    <h4 className="text-xs font-semibold text-foreground">Notificações</h4>
                     <span className="text-[10px] text-primary font-display">{notifications.length} novas</span>
                   </div>
                   <div className="max-h-64 overflow-y-auto">
                     {notifications.map((n) => (
                       <div key={n.id} className="flex items-start gap-3 p-3 hover:bg-secondary/30 transition-colors border-b border-border/50 last:border-0">
                         <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
-                          n.type === "success" ? "bg-ai-active" : n.type === "warning" ? "bg-ai-processing" : "bg-accent"
+                          n.type === "success" ? "bg-green-400" : n.type === "warning" ? "bg-amber-400" : "bg-accent"
                         }`} />
                         <div className="flex-1 min-w-0">
                           <p className="text-xs text-foreground leading-relaxed">{n.text}</p>
-                          <p className="text-[10px] text-muted-foreground mt-0.5">{n.time} atras</p>
+                          <p className="text-[10px] text-muted-foreground mt-0.5">{n.time} atrás</p>
                         </div>
                       </div>
                     ))}
