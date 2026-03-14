@@ -12,7 +12,7 @@ interface Automation {
 const demoAutomations: Automation[] = [
   { id: "1", platform: "n8n", workflow_name: "Lead Capture WhatsApp", status: "active", trigger_type: "webhook", executions: 1247, clientName: "João Silva", created_at: new Date().toISOString() },
   { id: "2", platform: "ManyChat", workflow_name: "Follow-up Automatico", status: "active", trigger_type: "event", executions: 834, clientName: "Maria Santos", created_at: new Date().toISOString() },
-  { id: "3", platform: "Make (Integromat)", workflow_name: "Sync CRM", status: "paused", trigger_type: "schedule", executions: 456, clientName: null, created_at: new Date().toISOString() },
+  { id: "3", platform: "Make (Integromat)", workflow_name: "Sync CRM", status: "paused", trigger_type: "schedule", executions: 456, clientName: undefined, created_at: new Date().toISOString() },
 ];
 
 const demoClients = [{ id: "1", name: "João Silva" }, { id: "2", name: "Maria Santos" }];
