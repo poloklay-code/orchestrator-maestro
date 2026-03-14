@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Plus, Search, Store, Trash2, DollarSign, ShoppingCart } from "lucide-react";
+import { Plus, Search, Store, Trash2, DollarSign, ShoppingCart, Bot, Globe, Sparkles, RefreshCw, Target, Eye, X } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { toast } from "sonner";
 
 const AFFILIATE_PLATFORMS = [
   "Hotmart", "Monetizze", "Eduzz", "Kiwify", "Braip", "Dig Store", "BuyGoods", "ClickBank", "MaxWeb",
 ];
+const TRAFFIC_TYPES = ["Tráfego Pago", "Tráfego Orgânico", "Ambos"];
+const DESTINATIONS = ["E-commerce", "Site/Landing Page", "Instagram", "YouTube", "TikTok", "WhatsApp"];
 
 interface Affiliate {
   id: string; platform: string; product_name: string; product_id: string;
