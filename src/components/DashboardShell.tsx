@@ -3,7 +3,7 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import {
   LayoutDashboard, Users, Briefcase, Activity, Shield, Bot, Link2, FileText,
   Settings, MessageSquare, LogOut, Menu, X, ChevronLeft, Zap, Store, Crown,
-  BarChart3, PenTool, Brain, Download, DollarSign, Key, MapPin, Boxes, Bell, Eye, UserCog,
+  BarChart3, PenTool, Brain, Download, DollarSign, Key, MapPin, Boxes, Bell, Eye, UserCog, Radio,
 } from "lucide-react";
 import OrchestratorBust from "@/components/OrchestratorBust";
 import { useThemeStore } from "@/stores/themeStore";

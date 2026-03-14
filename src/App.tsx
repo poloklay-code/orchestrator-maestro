@@ -27,6 +27,7 @@ import InstallPanel from "./pages/InstallPanel";
 import ApiKeysPanel from "./pages/ApiKeysPanel";
 import AgentForgePanel from "./pages/AgentForgePanel";
 import AffiliatesManager from "./pages/AffiliatesManager";
+import AICommandCenter from "./pages/AICommandCenter";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<DashboardLayout><DashboardOverview /></DashboardLayout>} />
+          <Route path="/dashboard/command-center" element={<DashboardLayout><AICommandCenter /></DashboardLayout>} />
           <Route path="/dashboard/monitoring" element={<DashboardLayout><MonitoringDashboard /></DashboardLayout>} />
           <Route path="/dashboard/memory" element={<DashboardLayout><StrategicMemory /></DashboardLayout>} />
           <Route path="/dashboard/integrations" element={<DashboardLayout><IntegrationsHub /></DashboardLayout>} />
