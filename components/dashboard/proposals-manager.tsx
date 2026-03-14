@@ -1,0 +1,207 @@
+"use client"
+
+import { useState } from "react"
+import { createClient } from "@/lib/supabase/client"
+import { toast } from "sonner"
+import { Plus, Search, FileText, Send, Trash2, Mail, MessageCircle, Copy } from "lucide-react"
+
+const SERVICE_OPTIONS = [
+  { name: "Gestao de Trafego", price: 2500 },
+  { name: "Automacao Completa", price: 3000 },
+  { name: "Assistente IA WhatsApp", price: 1500 },
+  { name: "Copywriting", price: 1200 },
+  { name: "Funil de Vendas", price: 2000 },
+  { name: "Gestao Redes Sociais", price: 1800 },
+  { name: "SEO", price: 1500 },
+  { name: "Email Marketing", price: 1000 },
+]
+
+interface Proposal {
+  id: string
+  client_id: string | null
+  title: string
+  description: string | null
+  services: unknown[]
+  fee_gestao: number
+  verba: number
+  total: number
+  discount: number
+  status: string
+  clients?: { name: string } | null
+  created_at: string
+}
+
+export function ProposalsManager({ initialProposals, clients }: { initialProposals: Proposal[]; clients: Array<{ id: string; name: string }> }) {
+  const [proposals, setProposals] = useState(initialProposals)
+  const [search, setSearch] = useState("")
+  const [showForm, setShowForm] = useState(false)
+  const [selectedServices, setSelectedServices] = useState<Array<{ name: string; price: number }>>([])
+  const [form, setForm] = useState({ client_id: "", title: "", description: "", fee_gestao: 0, verba: 0, discount: 0 })
+  const supabase = createClient()
+
+  const filtered = proposals.filter((p) =>
+    p.title.toLowerCase().includes(search.toLowerCase()) || p.clients?.name?.toLowerCase().includes(search.toLowerCase())
+  )
+
+  const servicesTotal = selectedServices.reduce((a, b) => a + b.price, 0)
+  const grandTotal = servicesTotal + Number(form.fee_gestao) + Number(form.verba) - Number(form.discount)
+
+  const toggleService = (svc: { name: string; price: number }) => {
+    setSelectedServices((prev) =>
+      prev.find((s) => s.name === svc.name) ? prev.filter((s) => s.name !== svc.name) : [...prev, svc]
+    )
+  }
+
+  const handleSave = async () => {
+    if (!form.title) { toast.error("Titulo obrigatorio"); return }
+    const { error } = await supabase.from("proposals").insert({
+      ...form, client_id: form.client_id || null,
+      services: selectedServices,
+      fee_gestao: Number(form.fee_gestao), verba: Number(form.verba),
+      discount: Number(form.discount), total: grandTotal, status: "draft",
+    })
+    if (error) { toast.error("Erro ao criar proposta"); return }
+    await supabase.from("audit_logs").insert({ action: `Proposta criada: ${form.title}`, entity_type: "proposal", source: "admin", severity: "info" })
+    toast.success("Proposta criada")
+    setShowForm(false)
+    setSelectedServices([])
+    const { data } = await supabase.from("proposals").select("*, clients(name)").order("created_at", { ascending: false })
+    if (data) setProposals(data)
+  }
+
+  const shareVia = (proposal: Proposal, method: string) => {
+    const text = `Proposta: ${proposal.title}\nCliente: ${proposal.clients?.name || "N/A"}\nTotal: R$ ${proposal.total.toLocaleString("pt-BR")}\n\nServicos inclusos no pacote. Entre em contato para mais detalhes.`
+    if (method === "whatsapp") {
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank")
+    } else if (method === "email") {
+      window.open(`mailto:?subject=${encodeURIComponent(proposal.title)}&body=${encodeURIComponent(text)}`, "_blank")
+    } else {
+      navigator.clipboard.writeText(text)
+      toast.success("Copiado para area de transferencia")
+    }
+    supabase.from("audit_logs").insert({ action: `Proposta compartilhada via ${method}: ${proposal.title}`, entity_type: "proposal", source: "admin", severity: "info" })
+  }
+
+  const statusColor = (s: string) => {
+    if (s === "sent") return "bg-blue-500/10 text-blue-400"
+    if (s === "accepted") return "bg-green-500/10 text-green-400"
+    if (s === "rejected") return "bg-red-500/10 text-red-400"
+    return "bg-muted text-muted-foreground"
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar propostas..."
+            className="w-full h-10 bg-card border border-border rounded-lg pl-9 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+        </div>
+        <button onClick={() => setShowForm(true)} className="flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90">
+          <Plus className="w-4 h-4" /> Nova Proposta
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
+          <div className="bg-card border border-border rounded-xl p-6 w-full max-w-xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <h2 className="text-lg font-semibold text-foreground">Nova Proposta</h2>
+            <div className="grid gap-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Titulo *</label>
+                  <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full h-10 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Cliente</label>
+                  <select value={form.client_id} onChange={(e) => setForm({ ...form, client_id: e.target.value })}
+                    className="w-full h-10 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    <option value="">Selecionar</option>
+                    {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Servicos (selecione)</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {SERVICE_OPTIONS.map((svc) => (
+                    <button key={svc.name} onClick={() => toggleService(svc)}
+                      className={`p-2 rounded-lg border text-left text-xs transition-all ${selectedServices.find((s) => s.name === svc.name) ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                      <p className="font-medium">{svc.name}</p>
+                      <p className="font-mono mt-0.5">R$ {svc.price.toLocaleString("pt-BR")}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Fee Gestao (R$)</label>
+                  <input type="number" value={form.fee_gestao} onChange={(e) => setForm({ ...form, fee_gestao: Number(e.target.value) })} className="w-full h-10 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Verba (R$)</label>
+                  <input type="number" value={form.verba} onChange={(e) => setForm({ ...form, verba: Number(e.target.value) })} className="w-full h-10 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Desconto (R$)</label>
+                  <input type="number" value={form.discount} onChange={(e) => setForm({ ...form, discount: Number(e.target.value) })} className="w-full h-10 bg-secondary border border-border rounded-lg px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50" />
+                </div>
+              </div>
+              <div className="p-3 rounded-lg bg-primary/5 border border-primary/20">
+                <p className="text-xs text-muted-foreground">Total da Proposta</p>
+                <p className="text-xl font-bold text-primary">R$ {grandTotal.toLocaleString("pt-BR")}</p>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">Descricao</label>
+                <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2}
+                  className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground resize-none focus:outline-none focus:ring-2 focus:ring-primary/50" />
+              </div>
+            </div>
+            <div className="flex gap-3 justify-end pt-2">
+              <button onClick={() => setShowForm(false)} className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground">Cancelar</button>
+              <button onClick={handleSave} className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90">Criar Proposta</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="grid gap-3">
+        {filtered.length === 0 ? (
+          <div className="text-center py-12 text-muted-foreground">
+            <FileText className="w-10 h-10 mx-auto mb-3 opacity-40" />
+            <p className="text-sm">Nenhuma proposta encontrada</p>
+          </div>
+        ) : (
+          filtered.map((prop) => (
+            <div key={prop.id} className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:border-primary/20 transition-all group">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <p className="text-sm font-semibold text-foreground">{prop.title}</p>
+                  <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded-full ${statusColor(prop.status)}`}>
+                    {prop.status === "draft" ? "Rascunho" : prop.status === "sent" ? "Enviada" : prop.status === "accepted" ? "Aceita" : "Rejeitada"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                  <span>{prop.clients?.name || "Sem cliente"}</span>
+                  <span className="text-primary font-bold">R$ {prop.total.toLocaleString("pt-BR")}</span>
+                  <span>{new Date(prop.created_at).toLocaleDateString("pt-BR")}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button onClick={() => shareVia(prop, "whatsapp")} className="p-2 rounded-lg hover:bg-green-500/10 text-muted-foreground hover:text-green-400" title="WhatsApp">
+                  <MessageCircle className="w-4 h-4" />
+                </button>
+                <button onClick={() => shareVia(prop, "email")} className="p-2 rounded-lg hover:bg-blue-500/10 text-muted-foreground hover:text-blue-400" title="Email">
+                  <Mail className="w-4 h-4" />
+                </button>
+                <button onClick={() => shareVia(prop, "copy")} className="p-2 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground" title="Copiar">
+                  <Copy className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
