@@ -17,6 +17,8 @@ export default function Themes() {
   const [localSlogan, setLocalSlogan] = useState(store.slogan);
   const [localName, setLocalName] = useState(store.profileName);
   const [localProfileSlogan, setLocalProfileSlogan] = useState(store.profileSlogan);
+  const [localProgramName, setLocalProgramName] = useState(store.programName);
+  const [localProgramVersion, setLocalProgramVersion] = useState(store.programVersion);
 
   const handleFileUpload = (
     e: React.ChangeEvent<HTMLInputElement>,
