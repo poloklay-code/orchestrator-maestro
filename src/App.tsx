@@ -37,6 +37,7 @@ import OpportunityDetector from "./pages/OpportunityDetector";
 import AutoScaleAI from "./pages/AutoScaleAI";
 import ContractsManager from "./pages/ContractsManager";
 import ClientRiskAnalyzer from "./pages/ClientRiskAnalyzer";
+import AIOperationsVisualizer from "./pages/AIOperationsVisualizer";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
