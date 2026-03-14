@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { PenTool, Zap, Shield, Copy, BarChart3, Target, RefreshCw, Eye, X, ChevronDown, ChevronUp, Users, FileText, Mail, Video, Globe, MessageSquare, Megaphone, Sparkles, TrendingUp } from "lucide-react";
+import { PenTool, Zap, Shield, Copy, BarChart3, Target, RefreshCw, Eye, X, ChevronDown, ChevronUp, Users, FileText, Mail, Video, Globe, MessageSquare, Megaphone, Sparkles, TrendingUp, Bot } from "lucide-react";
 
 const CHANNELS = ["Facebook Ads", "Google Ads", "Instagram", "WhatsApp", "Email", "Landing Page", "YouTube"];
 const OBJECTIVES = ["Conversão", "Tráfego", "Engajamento", "Remarketing", "Branding", "Lead Gen"];
