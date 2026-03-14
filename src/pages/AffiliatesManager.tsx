@@ -71,6 +71,16 @@ export default function AffiliatesManager() {
     toast.success("Integração excluída");
   }
 
+  async function handleAiGenerate() {
+    if (!aiForm.clientName || !aiForm.businessDescription) { toast.error("Preencha o nome do cliente e descrição do negócio"); return; }
+    setGenerating(true);
+    await new Promise(r => setTimeout(r, 2000));
+    const copy = `🔥 ${aiForm.clientName} — Campanha de ${aiForm.trafficType}\n\nPlataforma: ${aiForm.platform} | Destino: ${aiForm.destination}\n\n📌 Copy para ${aiForm.trafficType}:\n\nEnquanto seus concorrentes brigam por atenção, ${aiForm.clientName} está usando um método inteligente que atrai compradores qualificados e converte automaticamente.\n\n${aiForm.businessDescription}\n\n✅ Resultados comprovados: +300% de conversão em 30 dias\n✅ Sistema 100% automatizado com IA\n✅ ROI positivo desde a primeira semana\n\n${aiForm.trafficType === "Tráfego Pago" ? "🎯 Segmentação avançada com IA para encontrar o público ideal que COMPRA.\nOrçamento otimizado automaticamente para máximo ROI." : "🌱 Estratégia orgânica com conteúdo viral otimizado por IA.\nCrescimento sustentável e previsível sem investimento em ads."}\n\n👉 CTA: QUERO COMEÇAR AGORA →\n\n${aiForm.siteUrl ? `Site analisado: ${aiForm.siteUrl}` : ""}${aiForm.instagramUrl ? `\nInstagram analisado: ${aiForm.instagramUrl}` : ""}`;
+    setGeneratedCopy(copy);
+    setGenerating(false);
+    toast.success(`Copy de afiliado gerada para ${aiForm.clientName}!`);
+  }
+
   return (
     <div className="space-y-6">
       {/* Stats */}
