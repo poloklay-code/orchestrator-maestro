@@ -354,7 +354,7 @@ export default function AffiliatesManager() {
                         <span className="text-[9px] font-mono text-muted-foreground">{c.platform}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        {c.roas < 1.5 && <AlertTriangle className="w-3.5 h-3.5 text-red-400" title="ROAS baixo — IA recomenda pausar" />}
+                        {c.roas < 1.5 && <span title="ROAS baixo — IA recomenda pausar"><AlertTriangle className="w-3.5 h-3.5 text-red-400" /></span>}
                         <button onClick={() => toggleCampaign(viewingAff.id, c.id)} className="p-1.5 rounded hover:bg-secondary">
                           {c.status === "paused" ? <Play className="w-3.5 h-3.5 text-green-400" /> : <Pause className="w-3.5 h-3.5 text-yellow-400" />}
                         </button>
