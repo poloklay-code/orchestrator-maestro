@@ -12,15 +12,15 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/images/orquestrador-robot.jpg",
+      "src": "/images/app-icon.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/images/orquestrador-robot.jpg",
+      "src": "/images/app-icon.png",
       "sizes": "192x192",
-      "type": "image/jpeg",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ],
@@ -33,21 +33,21 @@
       "short_name": "Dashboard",
       "description": "Abrir visao geral",
       "url": "/dashboard?source=shortcut",
-      "icons": [{ "src": "/images/orquestrador-robot.jpg", "sizes": "512x512" }]
+      "icons": [{ "src": "/images/app-icon.png", "sizes": "512x512" }]
     },
     {
       "name": "Relatorios",
       "short_name": "Relatorios",
       "description": "Ver relatorios",
       "url": "/dashboard/reports?source=shortcut",
-      "icons": [{ "src": "/images/orquestrador-robot.jpg", "sizes": "512x512" }]
+      "icons": [{ "src": "/images/app-icon.png", "sizes": "512x512" }]
     },
     {
       "name": "Governanca",
       "short_name": "Aprovacoes",
       "description": "Revisar mudancas",
       "url": "/dashboard/governance?source=shortcut",
-      "icons": [{ "src": "/images/orquestrador-robot.jpg", "sizes": "512x512" }]
+      "icons": [{ "src": "/images/app-icon.png", "sizes": "512x512" }]
     }
   ]
 }

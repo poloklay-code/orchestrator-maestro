@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import {
   LayoutDashboard, Users, Briefcase, Activity, Shield, Bot, Link2, FileText,
@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import OrchestratorBust from "@/components/OrchestratorBust";
 import { useThemeStore } from "@/stores/themeStore";
+
+const adminOnlySections = ["SISTEMA"];
 
 const navSections = [
   {
@@ -94,27 +96,32 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const navigate = useNavigate();
   const { profileName, profileSlogan, profileAvatar, programName, programVersion } = useThemeStore();
 
+  const authRole = localStorage.getItem("auth_role") || "admin";
+  const isAdmin = authRole === "admin";
+  const userName = isAdmin ? profileName : (localStorage.getItem("auth_user_name") || "Usuário");
+
+  useEffect(() => {
+    const authed = localStorage.getItem("auth_role");
+    if (!authed) navigate("/");
+  }, [navigate]);
+
   const handleLogout = () => {
+    localStorage.removeItem("auth_role");
+    localStorage.removeItem("auth_user");
+    localStorage.removeItem("auth_user_name");
     navigate("/");
   };
 
+  const filteredSections = navSections.filter(s => {
+    if (!isAdmin && adminOnlySections.includes(s.title)) return false;
+    return true;
+  });
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      {/* Mobile overlay */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
+      {mobileOpen && <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden" onClick={() => setMobileOpen(false)} />}
 
-      {/* Sidebar */}
-      <aside
-        className={`fixed lg:relative z-50 h-full flex flex-col border-r border-border bg-card transition-all duration-300 ${
-          collapsed ? "w-16" : "w-60"
-        } ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
-      >
-        {/* Logo */}
+      <aside className={`fixed lg:relative z-50 h-full flex flex-col border-r border-border bg-card transition-all duration-300 ${collapsed ? "w-16" : "w-60"} ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
         <div className="flex items-center gap-3 p-4 border-b border-border min-h-[64px]">
           <OrchestratorBust size="small" className="w-8 h-8 flex-shrink-0" />
           {!collapsed && (
@@ -123,45 +130,24 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               <p className="text-[10px] font-semibold text-primary truncate">Centro de Operações Digitais</p>
             </div>
           )}
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="hidden lg:flex ml-auto text-muted-foreground hover:text-foreground transition-colors"
-          >
+          <button onClick={() => setCollapsed(!collapsed)} className="hidden lg:flex ml-auto text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft className={`w-4 h-4 transition-transform ${collapsed ? "rotate-180" : ""}`} />
           </button>
-          <button
-            onClick={() => setMobileOpen(false)}
-            className="lg:hidden ml-auto text-muted-foreground hover:text-foreground"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <button onClick={() => setMobileOpen(false)} className="lg:hidden ml-auto text-muted-foreground hover:text-foreground"><X className="w-4 h-4" /></button>
         </div>
 
-        {/* Nav */}
         <nav className="flex-1 overflow-y-auto py-2 px-2">
-          {navSections.map((section) => (
+          {filteredSections.map((section) => (
             <div key={section.title} className="mb-2">
-              {!collapsed && (
-                <p className="px-3 py-1.5 text-[9px] font-bold tracking-[0.2em] text-muted-foreground uppercase">
-                  {section.title}
-                </p>
-              )}
+              {!collapsed && <p className="px-3 py-1.5 text-[9px] font-bold tracking-[0.2em] text-muted-foreground uppercase">{section.title}</p>}
               <div className="space-y-0.5">
                 {section.items.map((item) => {
                   const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
                   const Icon = item.icon;
                   return (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs transition-all ${
-                        isActive
-                          ? "bg-primary/10 text-primary border border-primary/20"
-                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                      } ${collapsed ? "justify-center" : ""}`}
-                      title={collapsed ? item.label : undefined}
-                    >
+                    <Link key={item.href} to={item.href} onClick={() => setMobileOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs transition-all ${isActive ? "bg-primary/10 text-primary border border-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"} ${collapsed ? "justify-center" : ""}`}
+                      title={collapsed ? item.label : undefined}>
                       <Icon className="w-3.5 h-3.5 flex-shrink-0" />
                       {!collapsed && <span className="truncate">{item.label}</span>}
                     </Link>
@@ -172,31 +158,28 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           ))}
         </nav>
 
-        {/* Bottom */}
         <div className="p-2 border-t border-border">
-          <button
-            onClick={handleLogout}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all w-full ${
-              collapsed ? "justify-center" : ""
-            }`}
-          >
+          {!collapsed && !isAdmin && (
+            <div className="px-3 py-1.5 mb-1">
+              <span className="text-[9px] px-2 py-0.5 bg-accent/10 text-accent rounded-full font-semibold">USUÁRIO</span>
+            </div>
+          )}
+          {!collapsed && isAdmin && (
+            <div className="px-3 py-1.5 mb-1">
+              <span className="text-[9px] px-2 py-0.5 bg-primary/10 text-primary rounded-full font-semibold">ADMIN</span>
+            </div>
+          )}
+          <button onClick={handleLogout} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all w-full ${collapsed ? "justify-center" : ""}`}>
             <LogOut className="w-4 h-4 flex-shrink-0" />
             {!collapsed && <span>Sair</span>}
           </button>
         </div>
       </aside>
 
-      {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top bar */}
         <header className="h-16 border-b border-border bg-card flex items-center justify-between px-4 lg:px-6 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setMobileOpen(true)}
-              className="lg:hidden text-muted-foreground hover:text-foreground"
-            >
-              <Menu className="w-5 h-5" />
-            </button>
+            <button onClick={() => setMobileOpen(true)} className="lg:hidden text-muted-foreground hover:text-foreground"><Menu className="w-5 h-5" /></button>
             <div>
               <h1 className="text-sm font-semibold text-foreground">
                 {allNavItems.find((n) => n.href === pathname || (n.href !== "/dashboard" && pathname.startsWith(n.href)))?.label || "Painel"}
@@ -210,27 +193,18 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               <span className="text-muted-foreground hidden sm:inline">Sistema Online 24/7</span>
             </div>
 
-            {/* Profile */}
             <div className="flex items-center gap-2">
-              {profileAvatar && (
-                <img src={profileAvatar} alt="Avatar" className="w-7 h-7 rounded-full object-cover border border-border" />
-              )}
+              {profileAvatar && <img src={profileAvatar} alt="Avatar" className="w-7 h-7 rounded-full object-cover border border-border" />}
               <div className="text-right hidden sm:block">
-                <div className="text-xs text-foreground font-display">{profileName}</div>
-                <div className="text-[10px] text-muted-foreground font-command">{profileSlogan}</div>
+                <div className="text-xs text-foreground font-display">{userName}</div>
+                <div className="text-[10px] text-muted-foreground font-command">{isAdmin ? profileSlogan : "Operador"}</div>
               </div>
             </div>
 
-            {/* Notifications */}
             <div className="relative">
-              <button
-                onClick={() => setShowNotifications(!showNotifications)}
-                className="relative p-2 rounded-lg hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-all"
-              >
+              <button onClick={() => setShowNotifications(!showNotifications)} className="relative p-2 rounded-lg hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-all">
                 <Bell className="w-4 h-4" />
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary text-primary-foreground text-[9px] font-bold rounded-full flex items-center justify-center">
-                  {notifications.length}
-                </span>
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary text-primary-foreground text-[9px] font-bold rounded-full flex items-center justify-center">{notifications.length}</span>
               </button>
               {showNotifications && (
                 <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden">
@@ -241,9 +215,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                   <div className="max-h-64 overflow-y-auto">
                     {notifications.map((n) => (
                       <div key={n.id} className="flex items-start gap-3 p-3 hover:bg-secondary/30 transition-colors border-b border-border/50 last:border-0">
-                        <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
-                          n.type === "success" ? "bg-green-400" : n.type === "warning" ? "bg-amber-400" : "bg-accent"
-                        }`} />
+                        <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${n.type === "success" ? "bg-green-400" : n.type === "warning" ? "bg-amber-400" : "bg-accent"}`} />
                         <div className="flex-1 min-w-0">
                           <p className="text-xs text-foreground leading-relaxed">{n.text}</p>
                           <p className="text-[10px] text-muted-foreground mt-0.5">{n.time} atrás</p>
@@ -255,20 +227,14 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               )}
             </div>
 
-            <Link
-              to="/dashboard/assistant"
-              className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 rounded-lg text-primary text-xs hover:bg-primary/20 transition-all"
-            >
+            <Link to="/dashboard/assistant" className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 rounded-lg text-primary text-xs hover:bg-primary/20 transition-all">
               <MessageSquare className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Assistente</span>
             </Link>
           </div>
         </header>
 
-        {/* Page content */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6 bg-background bg-orchestrator">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto p-4 lg:p-6 bg-background bg-orchestrator">{children}</main>
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ interface ThemeState {
   profileName: string;
   profileSlogan: string;
   profileAvatar: string | null;
+  activeTheme: string;
   setLoginWallpaper: (url: string | null) => void;
   setFavicon: (url: string | null) => void;
   setAppIcon: (url: string | null) => void;
@@ -20,6 +21,7 @@ interface ThemeState {
   setProfileName: (n: string) => void;
   setProfileSlogan: (s: string) => void;
   setProfileAvatar: (url: string | null) => void;
+  setActiveTheme: (t: string) => void;
 }
 
 export const useThemeStore = create<ThemeState>()(
@@ -29,11 +31,12 @@ export const useThemeStore = create<ThemeState>()(
       favicon: null,
       appIcon: null,
       slogan: "SOVEREIGN AUTOMATION COMMAND CENTER",
-      programName: "ORQUESTRADOR",
+      programName: "AETHER ORCHESTRATOR",
       programVersion: "v2.0.0",
       profileName: "OPERADOR",
       profileSlogan: "Comandante da Frota",
       profileAvatar: null,
+      activeTheme: "Obsidian Gold",
       setLoginWallpaper: (url) => set({ loginWallpaper: url }),
       setFavicon: (url) => {
         set({ favicon: url });
@@ -54,6 +57,7 @@ export const useThemeStore = create<ThemeState>()(
       setProfileName: (n) => set({ profileName: n }),
       setProfileSlogan: (s) => set({ profileSlogan: s }),
       setProfileAvatar: (url) => set({ profileAvatar: url }),
+      setActiveTheme: (t) => set({ activeTheme: t }),
     }),
     { name: "aether-theme" }
   )
