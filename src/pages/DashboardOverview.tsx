@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { Users, Briefcase, Zap, Activity, Shield, Clock, ArrowUpRight, DollarSign, Boxes, MapPin, Key } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
+import { Users, Briefcase, Zap, Activity, Shield, Clock, ArrowUpRight, DollarSign, Boxes, MapPin, Key, TrendingUp, Target } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, AreaChart, Area, PieChart, Pie, Cell, Legend } from "recharts";
 import OrchestratorBust from "@/components/OrchestratorBust";
 import AIGrid from "@/components/AIGrid";
 
@@ -21,6 +21,23 @@ const performanceData = [
   { name: "Sex", uptime: 99.9, response: 110 },
   { name: "Sab", uptime: 100, response: 95 },
   { name: "Dom", uptime: 100, response: 88 },
+];
+
+const revenueData = [
+  { mes: "Jan", receita: 8500, gastos: 3200 },
+  { mes: "Fev", receita: 12400, gastos: 4100 },
+  { mes: "Mar", receita: 15800, gastos: 5300 },
+  { mes: "Abr", receita: 14200, gastos: 4800 },
+  { mes: "Mai", receita: 18600, gastos: 6100 },
+  { mes: "Jun", receita: 22000, gastos: 7200 },
+];
+
+const clientDistribution = [
+  { name: "Tráfego Pago", value: 35, fill: "hsl(var(--primary))" },
+  { name: "Automações", value: 25, fill: "hsl(var(--accent))" },
+  { name: "Copywriting", value: 20, fill: "hsl(142, 70%, 45%)" },
+  { name: "SEO/GBP", value: 12, fill: "hsl(35, 80%, 55%)" },
+  { name: "Chatbots", value: 8, fill: "hsl(270, 60%, 60%)" },
 ];
 
 const statCards = [
@@ -69,11 +86,7 @@ export default function DashboardOverview() {
         {statCards.map((card) => {
           const Icon = card.icon;
           return (
-            <Link
-              key={card.label}
-              to={card.href}
-              className="group relative rounded-xl border border-border bg-card p-4 hover:border-primary/30 transition-all"
-            >
+            <Link key={card.label} to={card.href} className="group relative rounded-xl border border-border bg-card p-4 hover:border-primary/30 transition-all">
               <div className="flex items-center justify-between mb-3">
                 <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${card.color}15` }}>
                   <Icon className="w-4 h-4" style={{ color: card.color }} />
@@ -87,7 +100,7 @@ export default function DashboardOverview() {
         })}
       </div>
 
-      {/* Charts */}
+      {/* Charts Row 1 */}
       <div className="grid lg:grid-cols-2 gap-4">
         <div className="rounded-xl border border-border bg-card p-4">
           <h3 className="text-sm font-semibold text-foreground mb-4">Servicos & Automacoes</h3>
@@ -97,8 +110,9 @@ export default function DashboardOverview() {
               <XAxis dataKey="name" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
               <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
               <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px", color: "hsl(var(--foreground))" }} />
-              <Bar dataKey="servicos" fill="hsl(var(--ai-active))" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="automacoes" fill="hsl(var(--accent))" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="servicos" fill="hsl(var(--ai-active))" radius={[4, 4, 0, 0]} name="Serviços" />
+              <Bar dataKey="automacoes" fill="hsl(var(--accent))" radius={[4, 4, 0, 0]} name="Automações" />
+              <Legend wrapperStyle={{ fontSize: 10 }} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -111,9 +125,55 @@ export default function DashboardOverview() {
               <XAxis dataKey="name" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
               <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={false} />
               <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px", color: "hsl(var(--foreground))" }} />
-              <Line type="monotone" dataKey="uptime" stroke="hsl(var(--ai-active))" strokeWidth={2} dot={false} />
-              <Line type="monotone" dataKey="response" stroke="hsl(var(--ai-processing))" strokeWidth={2} dot={false} />
+              <Line type="monotone" dataKey="uptime" stroke="hsl(var(--ai-active))" strokeWidth={2.5} dot={{ r: 3, fill: "hsl(var(--ai-active))" }} name="Uptime %" />
+              <Line type="monotone" dataKey="response" stroke="hsl(var(--ai-processing))" strokeWidth={2} dot={{ r: 3 }} name="Response ms" />
+              <Legend wrapperStyle={{ fontSize: 10 }} />
             </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Charts Row 2 */}
+      <div className="grid lg:grid-cols-2 gap-4">
+        <div className="rounded-xl border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-primary" /> Receita vs Gastos
+          </h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <AreaChart data={revenueData}>
+              <defs>
+                <linearGradient id="recGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="hsl(142, 70%, 45%)" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="hsl(142, 70%, 45%)" stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="gastGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="hsl(var(--destructive))" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="hsl(var(--destructive))" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis dataKey="mes" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} axisLine={false} />
+              <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} axisLine={false} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+              <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} formatter={(value: number) => `R$ ${value.toLocaleString()}`} />
+              <Area type="monotone" dataKey="receita" stroke="hsl(142, 70%, 45%)" fill="url(#recGrad)" strokeWidth={2.5} name="Receita" />
+              <Area type="monotone" dataKey="gastos" stroke="hsl(var(--destructive))" fill="url(#gastGrad)" strokeWidth={1.5} name="Gastos" />
+              <Legend wrapperStyle={{ fontSize: 10 }} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="rounded-xl border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+            <Target className="w-4 h-4 text-accent" /> Distribuição de Serviços
+          </h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <PieChart>
+              <Pie data={clientDistribution} cx="50%" cy="50%" innerRadius={45} outerRadius={80} paddingAngle={4} dataKey="value"
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                {clientDistribution.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
+              </Pie>
+              <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
+            </PieChart>
           </ResponsiveContainer>
         </div>
       </div>
@@ -130,9 +190,7 @@ export default function DashboardOverview() {
           <div className="space-y-2">
             {recentAudit.map((log) => (
               <div key={log.id} className="flex items-center gap-3 p-2 rounded-lg bg-secondary/30">
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                  log.severity === "error" ? "bg-destructive" : log.severity === "warning" ? "bg-ai-processing" : "bg-ai-active"
-                }`} />
+                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${log.severity === "error" ? "bg-destructive" : log.severity === "warning" ? "bg-ai-processing" : "bg-ai-active"}`} />
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-foreground truncate">{log.action}</p>
                   <p className="text-[10px] text-muted-foreground">{log.source}</p>
@@ -153,9 +211,7 @@ export default function DashboardOverview() {
           <div className="space-y-2">
             {recentServices.map((svc) => (
               <div key={svc.id} className="flex items-center gap-3 p-2 rounded-lg bg-secondary/30">
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                  svc.status === "active" ? "bg-ai-active" : "bg-ai-processing"
-                }`} />
+                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${svc.status === "active" ? "bg-ai-active" : "bg-ai-processing"}`} />
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-foreground truncate">{svc.type}</p>
                   <p className="text-[10px] text-muted-foreground">{svc.clients.name}</p>

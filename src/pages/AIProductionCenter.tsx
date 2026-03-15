@@ -4,6 +4,7 @@ import {
   CheckCircle2, Clock, AlertTriangle, Filter, Search, RefreshCw,
   TrendingUp, Target, FileText, Mail, Video, Image as ImageIcon
 } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend } from "recharts";
 
 type ProductionStatus = "completed" | "in_progress" | "queued" | "failed";
 
@@ -61,6 +62,40 @@ const outputTypes = [
   { type: "Relatórios", count: 12, icon: BarChart3 },
 ];
 
+/* Charts Data */
+const hourlyProduction = [
+  { hour: "06h", producoes: 3 }, { hour: "07h", producoes: 12 }, { hour: "08h", producoes: 28 },
+  { hour: "09h", producoes: 45 }, { hour: "10h", producoes: 38 }, { hour: "11h", producoes: 22 },
+  { hour: "12h", producoes: 15 }, { hour: "13h", producoes: 8 },
+];
+
+const productionByType = [
+  { name: "Campanhas", value: 23, fill: "hsl(var(--primary))" },
+  { name: "Copies", value: 56, fill: "hsl(142, 70%, 45%)" },
+  { name: "Automações", value: 34, fill: "hsl(var(--accent))" },
+  { name: "Relatórios", value: 12, fill: "hsl(35, 80%, 55%)" },
+  { name: "Chatbot", value: 42, fill: "hsl(195, 90%, 45%)" },
+  { name: "Google Negócio", value: 15, fill: "hsl(270, 60%, 60%)" },
+];
+
+const agentPerformance = [
+  { agent: "Copy", tarefas: 45, velocidade: 92, qualidade: 95, precisao: 88, eficiencia: 90 },
+  { agent: "Tráfego", tarefas: 38, velocidade: 85, qualidade: 90, precisao: 92, eficiencia: 87 },
+  { agent: "Automação", tarefas: 34, velocidade: 88, qualidade: 85, precisao: 90, eficiencia: 93 },
+  { agent: "SEO", tarefas: 22, velocidade: 78, qualidade: 92, precisao: 95, eficiencia: 82 },
+  { agent: "Chatbot", tarefas: 312, velocidade: 98, qualidade: 82, precisao: 85, eficiencia: 96 },
+];
+
+const weeklyTrend = [
+  { dia: "Seg", producoes: 65, aprovadas: 58 },
+  { dia: "Ter", producoes: 78, aprovadas: 72 },
+  { dia: "Qua", producoes: 92, aprovadas: 85 },
+  { dia: "Qui", producoes: 87, aprovadas: 80 },
+  { dia: "Sex", producoes: 95, aprovadas: 88 },
+  { dia: "Sab", producoes: 45, aprovadas: 42 },
+  { dia: "Dom", producoes: 30, aprovadas: 28 },
+];
+
 export default function AIProductionCenter() {
   const [filter, setFilter] = useState<ProductionStatus | "all">("all");
   const [search, setSearch] = useState("");
@@ -91,6 +126,83 @@ export default function AIProductionCenter() {
         ))}
       </div>
 
+      {/* Charts Row 1 */}
+      <div className="grid lg:grid-cols-2 gap-4">
+        <div className="rounded-xl border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-primary" /> Produção por Hora (Hoje)
+          </h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <AreaChart data={hourlyProduction}>
+              <defs>
+                <linearGradient id="prodGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis dataKey="hour" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} axisLine={false} />
+              <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} axisLine={false} />
+              <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
+              <Area type="monotone" dataKey="producoes" stroke="hsl(var(--primary))" fill="url(#prodGrad)" strokeWidth={2.5} dot={{ r: 3, fill: "hsl(var(--primary))" }} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="rounded-xl border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-accent" /> Distribuição por Tipo
+          </h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <PieChart>
+              <Pie data={productionByType} cx="50%" cy="50%" innerRadius={45} outerRadius={80} paddingAngle={4} dataKey="value"
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                {productionByType.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
+              </Pie>
+              <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Charts Row 2 */}
+      <div className="grid lg:grid-cols-2 gap-4">
+        <div className="rounded-xl border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+            <Bot className="w-4 h-4 text-primary" /> Performance das IAs (Radar)
+          </h3>
+          <ResponsiveContainer width="100%" height={250}>
+            <RadarChart cx="50%" cy="50%" outerRadius="65%" data={agentPerformance}>
+              <PolarGrid stroke="hsl(var(--border))" />
+              <PolarAngleAxis dataKey="agent" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 9 }} />
+              <Radar name="Velocidade" dataKey="velocidade" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.15} strokeWidth={2} />
+              <Radar name="Qualidade" dataKey="qualidade" stroke="hsl(142, 70%, 45%)" fill="hsl(142, 70%, 45%)" fillOpacity={0.1} strokeWidth={2} />
+              <Radar name="Eficiência" dataKey="eficiencia" stroke="hsl(35, 80%, 55%)" fill="hsl(35, 80%, 55%)" fillOpacity={0.1} strokeWidth={2} />
+              <Legend wrapperStyle={{ fontSize: 10, color: "hsl(var(--muted-foreground))" }} />
+              <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="rounded-xl border border-border bg-card p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+            <Factory className="w-4 h-4 text-accent" /> Tendência Semanal
+          </h3>
+          <ResponsiveContainer width="100%" height={250}>
+            <BarChart data={weeklyTrend}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis dataKey="dia" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} axisLine={false} />
+              <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} axisLine={false} />
+              <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
+              <Bar dataKey="producoes" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} name="Produções" />
+              <Bar dataKey="aprovadas" fill="hsl(142, 70%, 45%)" radius={[4, 4, 0, 0]} name="Aprovadas" />
+              <Legend wrapperStyle={{ fontSize: 10 }} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
       {/* Output Types */}
       <div className="rounded-xl border border-border bg-card p-5">
         <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
@@ -113,22 +225,13 @@ export default function AIProductionCenter() {
       <div className="flex flex-wrap gap-3 items-center">
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar produção..."
-            className="w-full pl-9 pr-4 py-2 rounded-lg bg-secondary/50 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none"
-          />
+          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar produção..."
+            className="w-full pl-9 pr-4 py-2 rounded-lg bg-secondary/50 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none" />
         </div>
         <div className="flex gap-2">
           {(["all", "completed", "in_progress", "queued", "failed"] as const).map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                filter === f ? "bg-primary text-primary-foreground" : "bg-secondary/50 text-muted-foreground hover:text-foreground"
-              }`}
-            >
+            <button key={f} onClick={() => setFilter(f)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${filter === f ? "bg-primary text-primary-foreground" : "bg-secondary/50 text-muted-foreground hover:text-foreground"}`}>
               {f === "all" ? "Todos" : statusConfig[f].label}
             </button>
           ))}
@@ -157,15 +260,11 @@ export default function AIProductionCenter() {
                 return (
                   <tr key={item.id} className="border-b border-border/50 hover:bg-secondary/20 transition-colors">
                     <td className="p-3 text-xs text-muted-foreground font-mono whitespace-nowrap">{item.date}</td>
-                    <td className="p-3">
-                      <span className="text-xs font-semibold text-accent">{item.agent}</span>
-                    </td>
+                    <td className="p-3"><span className="text-xs font-semibold text-accent">{item.agent}</span></td>
                     <td className="p-3 text-xs text-foreground">{item.service}</td>
                     <td className="p-3 text-xs text-foreground max-w-xs">{item.action}</td>
                     <td className="p-3 text-xs text-foreground">{item.client}</td>
-                    <td className="p-3">
-                      <span className="text-[10px] px-2 py-1 rounded-full bg-secondary text-muted-foreground">{item.platform}</span>
-                    </td>
+                    <td className="p-3"><span className="text-[10px] px-2 py-1 rounded-full bg-secondary text-muted-foreground">{item.platform}</span></td>
                     <td className="p-3">
                       <span className={`flex items-center gap-1.5 text-[10px] font-medium px-2 py-1 rounded-full ${cfg.color}`}>
                         <Icon className="w-3 h-3" /> {cfg.label}
