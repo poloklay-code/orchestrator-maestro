@@ -345,24 +345,57 @@ export default function ServicesManager() {
                   {svc.deliverables && svc.deliverables.length > 0 ? (
                     <div className="space-y-2">
                       {svc.deliverables.map((d) => (
-                        <div key={d.id} className="flex items-start gap-3 p-2.5 rounded-lg bg-card border border-border/50 hover:border-primary/20 transition-all">
-                          <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                            d.status === "done" ? "bg-green-500/10" : d.status === "running" ? "bg-primary/10" : "bg-secondary"
-                          }`}>
-                            {d.status === "done" ? <CheckCircle2 className="w-3 h-3 text-green-400" /> :
-                             d.status === "running" ? <Activity className="w-3 h-3 text-primary animate-pulse" /> :
-                             <Clock className="w-3 h-3 text-muted-foreground" />}
+                        <div key={d.id} className="rounded-lg bg-card border border-border/50 hover:border-primary/20 transition-all overflow-hidden">
+                          <div className="flex items-start gap-3 p-2.5 cursor-pointer" onClick={() => d.details && setExpandedDeliverable(expandedDeliverable === d.id ? null : d.id)}>
+                            <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                              d.status === "done" ? "bg-green-500/10" : d.status === "running" ? "bg-primary/10" : "bg-secondary"
+                            }`}>
+                              {d.status === "done" ? <CheckCircle2 className="w-3 h-3 text-green-400" /> :
+                               d.status === "running" ? <Activity className="w-3 h-3 text-primary animate-pulse" /> :
+                               <Clock className="w-3 h-3 text-muted-foreground" />}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className={`text-xs font-medium ${deliverableStatusColor(d.status)}`}>{d.name}</p>
+                              {d.result && <p className="text-[10px] text-muted-foreground mt-0.5">→ {d.result}</p>}
+                              {d.details && <p className="text-[9px] text-primary mt-0.5 flex items-center gap-1"><Eye className="w-2.5 h-2.5" /> {expandedDeliverable === d.id ? "Ocultar detalhes" : `Ver ${d.details.length} item(ns) detalhado(s)`}</p>}
+                            </div>
+                            <div className="text-right flex-shrink-0">
+                              <span className={`text-[9px] font-mono ${deliverableStatusColor(d.status)}`}>
+                                {d.status === "done" ? "✓ Concluído" : d.status === "running" ? "⚡ Executando" : "⏳ Pendente"}
+                              </span>
+                              <p className="text-[9px] text-muted-foreground">{d.date}</p>
+                            </div>
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className={`text-xs font-medium ${deliverableStatusColor(d.status)}`}>{d.name}</p>
-                            {d.result && <p className="text-[10px] text-muted-foreground mt-0.5">→ {d.result}</p>}
-                          </div>
-                          <div className="text-right flex-shrink-0">
-                            <span className={`text-[9px] font-mono ${deliverableStatusColor(d.status)}`}>
-                              {d.status === "done" ? "✓ Concluído" : d.status === "running" ? "⚡ Executando" : "⏳ Pendente"}
-                            </span>
-                            <p className="text-[9px] text-muted-foreground">{d.date}</p>
-                          </div>
+                          {/* Expanded Detail Content */}
+                          {expandedDeliverable === d.id && d.details && (
+                            <div className="border-t border-border/50 p-3 bg-secondary/5 space-y-2">
+                              {d.details.map((detail, idx) => (
+                                <div key={idx} className="p-3 rounded-lg bg-card border border-border/30">
+                                  <div className="flex items-center gap-2 mb-1.5">
+                                    <span className={`text-[8px] px-1.5 py-0.5 rounded font-mono uppercase tracking-wider ${
+                                      detail.type === "pixel" ? "bg-blue-500/10 text-blue-400" :
+                                      detail.type === "creative" ? "bg-purple-500/10 text-purple-400" :
+                                      detail.type === "campaign" ? "bg-green-500/10 text-green-400" :
+                                      detail.type === "report" ? "bg-amber-500/10 text-amber-400" :
+                                      "bg-muted text-muted-foreground"
+                                    }`}>{detail.type}</span>
+                                    <p className="text-[10px] font-semibold text-foreground">{detail.title}</p>
+                                  </div>
+                                  <p className="text-[10px] text-muted-foreground leading-relaxed whitespace-pre-line">{detail.content}</p>
+                                  {detail.metrics && (
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 mt-2">
+                                      {Object.entries(detail.metrics).map(([key, val]) => (
+                                        <div key={key} className="p-1.5 rounded bg-secondary/30 text-center">
+                                          <p className="text-[9px] font-bold text-primary">{val}</p>
+                                          <p className="text-[8px] text-muted-foreground">{key}</p>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
