@@ -38,6 +38,9 @@ import AutoScaleAI from "./pages/AutoScaleAI";
 import ContractsManager from "./pages/ContractsManager";
 import ClientRiskAnalyzer from "./pages/ClientRiskAnalyzer";
 import AIOperationsVisualizer from "./pages/AIOperationsVisualizer";
+import ClientBriefing from "./pages/ClientBriefing";
+import LeadManager from "./pages/LeadManager";
+import AISalesAgent from "./pages/AISalesAgent";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
