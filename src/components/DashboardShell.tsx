@@ -82,13 +82,15 @@ const navSections = [
 
 const allNavItems = navSections.flatMap((s) => s.items);
 
-const notifications = [
-  { id: 1, text: "Sistema online há 24h sem interrupções", type: "success", time: "2min" },
-  { id: 2, text: "IA-CopyMaster gerou 5 anúncios para Tech Solutions", type: "info", time: "5min" },
-  { id: 3, text: "Campanha E-commerce escalada +20% automaticamente", type: "info", time: "15min" },
-  { id: 4, text: "Alerta: InfoProduto BR — 2 meses sem pagamento", type: "warning", time: "1h" },
-  { id: 5, text: "Novo concorrente detectado: Growth Lab", type: "info", time: "2h" },
-  { id: 6, text: "Oportunidade detectada: IA para PMEs (+340%)", type: "success", time: "3h" },
+const initialNotifications = [
+  { id: 1, text: "Sistema online há 24h sem interrupções", type: "success", time: "2min", read: false },
+  { id: 2, text: "IA-CopyMaster gerou 5 anúncios para Tech Solutions", type: "info", time: "5min", read: false },
+  { id: 3, text: "Campanha E-commerce escalada +20% automaticamente", type: "info", time: "15min", read: false },
+  { id: 4, text: "Alerta: InfoProduto BR — 2 meses sem pagamento", type: "warning", time: "1h", read: false },
+  { id: 5, text: "Novo concorrente detectado: Growth Lab", type: "info", time: "2h", read: false },
+  { id: 6, text: "Oportunidade detectada: IA para PMEs (+340%)", type: "success", time: "3h", read: false },
+  { id: 7, text: "Novo briefing recebido: Bella Estética", type: "info", time: "4h", read: false },
+  { id: 8, text: "Lead qualificado: Pedro Mendes (Score 92)", type: "success", time: "5h", read: false },
 ];
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
