@@ -15,6 +15,14 @@ interface Service {
 
 interface Deliverable {
   id: string; name: string; status: string; date: string; result?: string;
+  details?: DeliverableDetail[];
+}
+
+interface DeliverableDetail {
+  type: "pixel" | "creative" | "campaign" | "report" | "content" | "config";
+  title: string;
+  content: string;
+  metrics?: Record<string, string>;
 }
 
 const demoServices: Service[] = [
@@ -25,11 +33,32 @@ const demoServices: Service[] = [
     clientName: "João Silva", created_at: "2026-01-15T10:00:00Z",
     progress: 78, tasksTotal: 18, tasksDone: 14, iaAgent: "IA-Tráfego v3",
     deliverables: [
-      { id: "d1", name: "Configuração Pixel & Conversões", status: "done", date: "2026-01-16", result: "Pixel ativo em 3 domínios" },
-      { id: "d2", name: "Criação de 12 Criativos", status: "done", date: "2026-01-20", result: "CTR médio: 3.2%" },
-      { id: "d3", name: "Setup Campanhas (3 objetivos)", status: "done", date: "2026-01-22", result: "CPA: R$12,40" },
-      { id: "d4", name: "Otimização A/B Semanal", status: "running", date: "2026-03-14", result: "ROAS atual: 4.2x" },
-      { id: "d5", name: "Relatório Mensal Completo", status: "running", date: "2026-03-15" },
+      { id: "d1", name: "Configuração Pixel & Conversões", status: "done", date: "2026-01-16", result: "Pixel ativo em 3 domínios", details: [
+        { type: "pixel", title: "Meta Pixel", content: "ID: 847291038472910 — Instalado via GTM", metrics: { "Eventos rastreados": "PageView, Purchase, AddToCart, Lead", "Domínios": "loja.techsolutions.com.br, checkout.techsolutions.com.br, blog.techsolutions.com.br" } },
+        { type: "config", title: "Conversão API (CAPI)", content: "Server-side tracking ativo — Deduplica eventos browser+server", metrics: { "Match rate": "92%", "Eventos/dia": "2.400" } },
+        { type: "config", title: "Google Ads Tag", content: "ID: AW-123456789 — Conversion linker ativo", metrics: { "Conversões rastreadas": "Purchase, Lead, SignUp" } },
+      ]},
+      { id: "d2", name: "Criação de 12 Criativos", status: "done", date: "2026-01-20", result: "CTR médio: 3.2%", details: [
+        { type: "creative", title: "Carrossel — Depoimentos", content: "5 slides com depoimentos reais de clientes + CTA 'Quero Resultados Assim'", metrics: { "CTR": "4.1%", "CPM": "R$18,50", "Impressões": "45.200" } },
+        { type: "creative", title: "Vídeo 15s — Problema/Solução", content: "Hook: 'Você ainda perde 3h/dia com atendimento manual?' → Solução: IA WhatsApp", metrics: { "CTR": "3.8%", "Views 75%": "12.400", "CPV": "R$0,08" } },
+        { type: "creative", title: "Stories — Antes/Depois", content: "Comparativo visual: Dashboard manual vs Dashboard automatizado", metrics: { "CTR": "3.5%", "Swipe Up": "2.100" } },
+        { type: "creative", title: "Estático — Oferta Direta", content: "Design premium com badge 'Resultado Garantido' + preço riscado + CTA urgência", metrics: { "CTR": "2.9%", "Cliques": "3.800" } },
+        { type: "creative", title: "Reels — Case de Sucesso", content: "60s mostrando resultado real: 'De R$5k para R$45k em 90 dias'", metrics: { "CTR": "4.5%", "Compartilhamentos": "340" } },
+        { type: "creative", title: "UGC Style — Testimonial", content: "Vídeo estilo selfie com linguagem natural sobre resultados", metrics: { "CTR": "3.2%", "Saves": "580" } },
+      ]},
+      { id: "d3", name: "Setup Campanhas (3 objetivos)", status: "done", date: "2026-01-22", result: "CPA: R$12,40", details: [
+        { type: "campaign", title: "Campanha 1 — Conversão (Purchase)", content: "Objetivo: Compras diretas | Público: Lookalike 2% compradores 180d | Orçamento: R$150/dia", metrics: { "CPA": "R$12,40", "ROAS": "4.2x", "Compras": "89", "Receita": "R$46.200" } },
+        { type: "campaign", title: "Campanha 2 — Leads (WhatsApp)", content: "Objetivo: Mensagens WhatsApp | Público: Interesse em tecnologia + Comportamento compra online | Orçamento: R$80/dia", metrics: { "CPL": "R$4,80", "Leads": "512", "Qualificados": "234 (45%)" } },
+        { type: "campaign", title: "Campanha 3 — Retargeting", content: "Objetivo: Conversão | Público: Visitou site 30d + Carrinho abandonado | Orçamento: R$50/dia", metrics: { "CPA": "R$8,20", "ROAS": "6.8x", "Recuperados": "67 carrinhos" } },
+        { type: "campaign", title: "Conjuntos de Anúncios Ativos", content: "Total: 9 ad sets | 3 por campanha | Segmentação: Lookalike, Interesse, Retargeting", metrics: { "Ad Sets ativos": "9", "Anúncios por set": "4", "Total anúncios": "36" } },
+      ]},
+      { id: "d4", name: "Otimização A/B Semanal", status: "running", date: "2026-03-14", result: "ROAS atual: 4.2x", details: [
+        { type: "report", title: "Teste A/B Semana 8", content: "Testando: Copy curta vs Copy longa no ad principal | Resultado parcial: Copy curta +18% CTR", metrics: { "Variante A (CTR)": "3.8%", "Variante B (CTR)": "4.5%", "Significância": "94%" } },
+        { type: "report", title: "Otimizações Aplicadas", content: "1) Pausado 3 ad sets com CPA > R$20 | 2) Escalado 2 ad sets com ROAS > 5x (+30% budget) | 3) Novos 4 criativos adicionados", metrics: { "CPA antes": "R$15,20", "CPA depois": "R$12,40", "Melhoria": "-18.4%" } },
+      ]},
+      { id: "d5", name: "Relatório Mensal Completo", status: "running", date: "2026-03-15", details: [
+        { type: "report", title: "Relatório Março/2026 (parcial)", content: "📊 Resumo: Investido R$8.400 | Receita R$35.280 | ROAS 4.2x\n📈 Leads: 512 gerados | 234 qualificados | 89 vendas\n🎯 Melhor campanha: Retargeting (ROAS 6.8x)\n📉 Pior campanha: Interesse frio (CPA R$22 — pausada)", metrics: { "Investido": "R$8.400", "Receita": "R$35.280", "ROAS": "4.2x", "Leads": "512" } },
+      ]},
       { id: "d6", name: "Escala para R$10k verba", status: "pending", date: "2026-04-01" },
     ],
   },
@@ -99,6 +128,7 @@ export default function ServicesManager() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Service | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [expandedDeliverable, setExpandedDeliverable] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState("all");
   const [form, setForm] = useState({ client_id: "", type: "", platform: "", description: "", status: "pending", priority: "medium", fee_gestao: 0, verba: 0 });
 
@@ -315,24 +345,57 @@ export default function ServicesManager() {
                   {svc.deliverables && svc.deliverables.length > 0 ? (
                     <div className="space-y-2">
                       {svc.deliverables.map((d) => (
-                        <div key={d.id} className="flex items-start gap-3 p-2.5 rounded-lg bg-card border border-border/50 hover:border-primary/20 transition-all">
-                          <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                            d.status === "done" ? "bg-green-500/10" : d.status === "running" ? "bg-primary/10" : "bg-secondary"
-                          }`}>
-                            {d.status === "done" ? <CheckCircle2 className="w-3 h-3 text-green-400" /> :
-                             d.status === "running" ? <Activity className="w-3 h-3 text-primary animate-pulse" /> :
-                             <Clock className="w-3 h-3 text-muted-foreground" />}
+                        <div key={d.id} className="rounded-lg bg-card border border-border/50 hover:border-primary/20 transition-all overflow-hidden">
+                          <div className="flex items-start gap-3 p-2.5 cursor-pointer" onClick={() => d.details && setExpandedDeliverable(expandedDeliverable === d.id ? null : d.id)}>
+                            <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                              d.status === "done" ? "bg-green-500/10" : d.status === "running" ? "bg-primary/10" : "bg-secondary"
+                            }`}>
+                              {d.status === "done" ? <CheckCircle2 className="w-3 h-3 text-green-400" /> :
+                               d.status === "running" ? <Activity className="w-3 h-3 text-primary animate-pulse" /> :
+                               <Clock className="w-3 h-3 text-muted-foreground" />}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className={`text-xs font-medium ${deliverableStatusColor(d.status)}`}>{d.name}</p>
+                              {d.result && <p className="text-[10px] text-muted-foreground mt-0.5">→ {d.result}</p>}
+                              {d.details && <p className="text-[9px] text-primary mt-0.5 flex items-center gap-1"><Eye className="w-2.5 h-2.5" /> {expandedDeliverable === d.id ? "Ocultar detalhes" : `Ver ${d.details.length} item(ns) detalhado(s)`}</p>}
+                            </div>
+                            <div className="text-right flex-shrink-0">
+                              <span className={`text-[9px] font-mono ${deliverableStatusColor(d.status)}`}>
+                                {d.status === "done" ? "✓ Concluído" : d.status === "running" ? "⚡ Executando" : "⏳ Pendente"}
+                              </span>
+                              <p className="text-[9px] text-muted-foreground">{d.date}</p>
+                            </div>
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className={`text-xs font-medium ${deliverableStatusColor(d.status)}`}>{d.name}</p>
-                            {d.result && <p className="text-[10px] text-muted-foreground mt-0.5">→ {d.result}</p>}
-                          </div>
-                          <div className="text-right flex-shrink-0">
-                            <span className={`text-[9px] font-mono ${deliverableStatusColor(d.status)}`}>
-                              {d.status === "done" ? "✓ Concluído" : d.status === "running" ? "⚡ Executando" : "⏳ Pendente"}
-                            </span>
-                            <p className="text-[9px] text-muted-foreground">{d.date}</p>
-                          </div>
+                          {/* Expanded Detail Content */}
+                          {expandedDeliverable === d.id && d.details && (
+                            <div className="border-t border-border/50 p-3 bg-secondary/5 space-y-2">
+                              {d.details.map((detail, idx) => (
+                                <div key={idx} className="p-3 rounded-lg bg-card border border-border/30">
+                                  <div className="flex items-center gap-2 mb-1.5">
+                                    <span className={`text-[8px] px-1.5 py-0.5 rounded font-mono uppercase tracking-wider ${
+                                      detail.type === "pixel" ? "bg-blue-500/10 text-blue-400" :
+                                      detail.type === "creative" ? "bg-purple-500/10 text-purple-400" :
+                                      detail.type === "campaign" ? "bg-green-500/10 text-green-400" :
+                                      detail.type === "report" ? "bg-amber-500/10 text-amber-400" :
+                                      "bg-muted text-muted-foreground"
+                                    }`}>{detail.type}</span>
+                                    <p className="text-[10px] font-semibold text-foreground">{detail.title}</p>
+                                  </div>
+                                  <p className="text-[10px] text-muted-foreground leading-relaxed whitespace-pre-line">{detail.content}</p>
+                                  {detail.metrics && (
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 mt-2">
+                                      {Object.entries(detail.metrics).map(([key, val]) => (
+                                        <div key={key} className="p-1.5 rounded bg-secondary/30 text-center">
+                                          <p className="text-[9px] font-bold text-primary">{val}</p>
+                                          <p className="text-[8px] text-muted-foreground">{key}</p>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
