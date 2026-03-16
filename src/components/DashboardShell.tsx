@@ -97,6 +97,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState(initialNotifications);
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
   const { profileName, profileSlogan, profileAvatar, programName, programVersion } = useThemeStore();
