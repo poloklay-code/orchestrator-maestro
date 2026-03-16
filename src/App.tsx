@@ -70,6 +70,9 @@ const App = () => (
           <Route path="/dashboard/auto-scale" element={<DashboardLayout><AutoScaleAI /></DashboardLayout>} />
           <Route path="/dashboard/contracts" element={<DashboardLayout><ContractsManager /></DashboardLayout>} />
           <Route path="/dashboard/risk" element={<DashboardLayout><ClientRiskAnalyzer /></DashboardLayout>} />
+          <Route path="/dashboard/briefing" element={<DashboardLayout><ClientBriefing /></DashboardLayout>} />
+          <Route path="/dashboard/leads" element={<DashboardLayout><LeadManager /></DashboardLayout>} />
+          <Route path="/dashboard/sales-agent" element={<DashboardLayout><AISalesAgent /></DashboardLayout>} />
           <Route path="/dashboard/monitoring" element={<DashboardLayout><MonitoringDashboard /></DashboardLayout>} />
           <Route path="/dashboard/memory" element={<DashboardLayout><StrategicMemory /></DashboardLayout>} />
           <Route path="/dashboard/integrations" element={<DashboardLayout><IntegrationsHub /></DashboardLayout>} />
