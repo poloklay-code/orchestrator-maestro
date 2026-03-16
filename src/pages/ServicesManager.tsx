@@ -128,6 +128,7 @@ export default function ServicesManager() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Service | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [expandedDeliverable, setExpandedDeliverable] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState("all");
   const [form, setForm] = useState({ client_id: "", type: "", platform: "", description: "", status: "pending", priority: "medium", fee_gestao: 0, verba: 0 });
 
