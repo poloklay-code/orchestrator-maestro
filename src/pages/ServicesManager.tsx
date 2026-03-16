@@ -15,6 +15,14 @@ interface Service {
 
 interface Deliverable {
   id: string; name: string; status: string; date: string; result?: string;
+  details?: DeliverableDetail[];
+}
+
+interface DeliverableDetail {
+  type: "pixel" | "creative" | "campaign" | "report" | "content" | "config";
+  title: string;
+  content: string;
+  metrics?: Record<string, string>;
 }
 
 const demoServices: Service[] = [
