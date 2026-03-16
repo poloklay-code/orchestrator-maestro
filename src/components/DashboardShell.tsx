@@ -210,22 +210,27 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             <div className="relative">
               <button onClick={() => setShowNotifications(!showNotifications)} className="relative p-2 rounded-lg hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-all">
                 <Bell className="w-4 h-4" />
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary text-primary-foreground text-[9px] font-bold rounded-full flex items-center justify-center">{notifications.length}</span>
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary text-primary-foreground text-[9px] font-bold rounded-full flex items-center justify-center">{notifications.filter(n => !n.read).length}</span>
               </button>
               {showNotifications && (
                 <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden">
                   <div className="p-3 border-b border-border flex items-center justify-between">
                     <h4 className="text-xs font-semibold text-foreground">Notificações</h4>
-                    <span className="text-[10px] text-primary font-display">{notifications.length} novas</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] text-primary font-display">{notifications.filter(n => !n.read).length} novas</span>
+                      <button onClick={() => setNotifications(prev => prev.map(n => ({ ...n, read: true })))} className="text-[9px] text-muted-foreground hover:text-foreground">Marcar todas lidas</button>
+                    </div>
                   </div>
-                  <div className="max-h-64 overflow-y-auto">
+                  <div className="max-h-72 overflow-y-auto">
                     {notifications.map((n) => (
-                      <div key={n.id} className="flex items-start gap-3 p-3 hover:bg-secondary/30 transition-colors border-b border-border/50 last:border-0">
-                        <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${n.type === "success" ? "bg-green-400" : n.type === "warning" ? "bg-amber-400" : "bg-accent"}`} />
+                      <div key={n.id} onClick={() => setNotifications(prev => prev.map(x => x.id === n.id ? { ...x, read: !x.read } : x))}
+                        className={`flex items-start gap-3 p-3 cursor-pointer transition-colors border-b border-border/50 last:border-0 ${n.read ? "opacity-50 hover:opacity-80" : "hover:bg-secondary/30"}`}>
+                        <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${n.read ? "bg-muted" : n.type === "success" ? "bg-green-400" : n.type === "warning" ? "bg-amber-400" : "bg-accent"}`} />
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs text-foreground leading-relaxed">{n.text}</p>
+                          <p className={`text-xs leading-relaxed ${n.read ? "text-muted-foreground" : "text-foreground font-medium"}`}>{n.text}</p>
                           <p className="text-[10px] text-muted-foreground mt-0.5">{n.time} atrás</p>
                         </div>
+                        <span className="text-[8px] text-muted-foreground mt-1">{n.read ? "✓ Lida" : "●"}</span>
                       </div>
                     ))}
                   </div>
