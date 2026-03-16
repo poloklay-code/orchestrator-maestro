@@ -33,11 +33,32 @@ const demoServices: Service[] = [
     clientName: "João Silva", created_at: "2026-01-15T10:00:00Z",
     progress: 78, tasksTotal: 18, tasksDone: 14, iaAgent: "IA-Tráfego v3",
     deliverables: [
-      { id: "d1", name: "Configuração Pixel & Conversões", status: "done", date: "2026-01-16", result: "Pixel ativo em 3 domínios" },
-      { id: "d2", name: "Criação de 12 Criativos", status: "done", date: "2026-01-20", result: "CTR médio: 3.2%" },
-      { id: "d3", name: "Setup Campanhas (3 objetivos)", status: "done", date: "2026-01-22", result: "CPA: R$12,40" },
-      { id: "d4", name: "Otimização A/B Semanal", status: "running", date: "2026-03-14", result: "ROAS atual: 4.2x" },
-      { id: "d5", name: "Relatório Mensal Completo", status: "running", date: "2026-03-15" },
+      { id: "d1", name: "Configuração Pixel & Conversões", status: "done", date: "2026-01-16", result: "Pixel ativo em 3 domínios", details: [
+        { type: "pixel", title: "Meta Pixel", content: "ID: 847291038472910 — Instalado via GTM", metrics: { "Eventos rastreados": "PageView, Purchase, AddToCart, Lead", "Domínios": "loja.techsolutions.com.br, checkout.techsolutions.com.br, blog.techsolutions.com.br" } },
+        { type: "config", title: "Conversão API (CAPI)", content: "Server-side tracking ativo — Deduplica eventos browser+server", metrics: { "Match rate": "92%", "Eventos/dia": "2.400" } },
+        { type: "config", title: "Google Ads Tag", content: "ID: AW-123456789 — Conversion linker ativo", metrics: { "Conversões rastreadas": "Purchase, Lead, SignUp" } },
+      ]},
+      { id: "d2", name: "Criação de 12 Criativos", status: "done", date: "2026-01-20", result: "CTR médio: 3.2%", details: [
+        { type: "creative", title: "Carrossel — Depoimentos", content: "5 slides com depoimentos reais de clientes + CTA 'Quero Resultados Assim'", metrics: { "CTR": "4.1%", "CPM": "R$18,50", "Impressões": "45.200" } },
+        { type: "creative", title: "Vídeo 15s — Problema/Solução", content: "Hook: 'Você ainda perde 3h/dia com atendimento manual?' → Solução: IA WhatsApp", metrics: { "CTR": "3.8%", "Views 75%": "12.400", "CPV": "R$0,08" } },
+        { type: "creative", title: "Stories — Antes/Depois", content: "Comparativo visual: Dashboard manual vs Dashboard automatizado", metrics: { "CTR": "3.5%", "Swipe Up": "2.100" } },
+        { type: "creative", title: "Estático — Oferta Direta", content: "Design premium com badge 'Resultado Garantido' + preço riscado + CTA urgência", metrics: { "CTR": "2.9%", "Cliques": "3.800" } },
+        { type: "creative", title: "Reels — Case de Sucesso", content: "60s mostrando resultado real: 'De R$5k para R$45k em 90 dias'", metrics: { "CTR": "4.5%", "Compartilhamentos": "340" } },
+        { type: "creative", title: "UGC Style — Testimonial", content: "Vídeo estilo selfie com linguagem natural sobre resultados", metrics: { "CTR": "3.2%", "Saves": "580" } },
+      ]},
+      { id: "d3", name: "Setup Campanhas (3 objetivos)", status: "done", date: "2026-01-22", result: "CPA: R$12,40", details: [
+        { type: "campaign", title: "Campanha 1 — Conversão (Purchase)", content: "Objetivo: Compras diretas | Público: Lookalike 2% compradores 180d | Orçamento: R$150/dia", metrics: { "CPA": "R$12,40", "ROAS": "4.2x", "Compras": "89", "Receita": "R$46.200" } },
+        { type: "campaign", title: "Campanha 2 — Leads (WhatsApp)", content: "Objetivo: Mensagens WhatsApp | Público: Interesse em tecnologia + Comportamento compra online | Orçamento: R$80/dia", metrics: { "CPL": "R$4,80", "Leads": "512", "Qualificados": "234 (45%)" } },
+        { type: "campaign", title: "Campanha 3 — Retargeting", content: "Objetivo: Conversão | Público: Visitou site 30d + Carrinho abandonado | Orçamento: R$50/dia", metrics: { "CPA": "R$8,20", "ROAS": "6.8x", "Recuperados": "67 carrinhos" } },
+        { type: "campaign", title: "Conjuntos de Anúncios Ativos", content: "Total: 9 ad sets | 3 por campanha | Segmentação: Lookalike, Interesse, Retargeting", metrics: { "Ad Sets ativos": "9", "Anúncios por set": "4", "Total anúncios": "36" } },
+      ]},
+      { id: "d4", name: "Otimização A/B Semanal", status: "running", date: "2026-03-14", result: "ROAS atual: 4.2x", details: [
+        { type: "report", title: "Teste A/B Semana 8", content: "Testando: Copy curta vs Copy longa no ad principal | Resultado parcial: Copy curta +18% CTR", metrics: { "Variante A (CTR)": "3.8%", "Variante B (CTR)": "4.5%", "Significância": "94%" } },
+        { type: "report", title: "Otimizações Aplicadas", content: "1) Pausado 3 ad sets com CPA > R$20 | 2) Escalado 2 ad sets com ROAS > 5x (+30% budget) | 3) Novos 4 criativos adicionados", metrics: { "CPA antes": "R$15,20", "CPA depois": "R$12,40", "Melhoria": "-18.4%" } },
+      ]},
+      { id: "d5", name: "Relatório Mensal Completo", status: "running", date: "2026-03-15", details: [
+        { type: "report", title: "Relatório Março/2026 (parcial)", content: "📊 Resumo: Investido R$8.400 | Receita R$35.280 | ROAS 4.2x\n📈 Leads: 512 gerados | 234 qualificados | 89 vendas\n🎯 Melhor campanha: Retargeting (ROAS 6.8x)\n📉 Pior campanha: Interesse frio (CPA R$22 — pausada)", metrics: { "Investido": "R$8.400", "Receita": "R$35.280", "ROAS": "4.2x", "Leads": "512" } },
+      ]},
       { id: "d6", name: "Escala para R$10k verba", status: "pending", date: "2026-04-01" },
     ],
   },
