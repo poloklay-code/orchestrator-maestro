@@ -585,6 +585,151 @@ export type Database = {
           },
         ]
       }
+      dominus_actions: {
+        Row: {
+          action_type: string
+          created_at: string | null
+          executed_at: string | null
+          id: string
+          result: Json | null
+          revenue_recovered: number | null
+          status: string | null
+          target_id: string | null
+          target_type: string
+          tenant_id: string | null
+        }
+        Insert: {
+          action_type: string
+          created_at?: string | null
+          executed_at?: string | null
+          id?: string
+          result?: Json | null
+          revenue_recovered?: number | null
+          status?: string | null
+          target_id?: string | null
+          target_type: string
+          tenant_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          created_at?: string | null
+          executed_at?: string | null
+          id?: string
+          result?: Json | null
+          revenue_recovered?: number | null
+          status?: string | null
+          target_id?: string | null
+          target_type?: string
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dominus_actions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dominus_insights: {
+        Row: {
+          ai_analysis: Json | null
+          category: string
+          created_at: string | null
+          description: string | null
+          id: string
+          impact_value: number | null
+          priority: string | null
+          status: string | null
+          tenant_id: string | null
+          title: string
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          category: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          impact_value?: number | null
+          priority?: string | null
+          status?: string | null
+          tenant_id?: string | null
+          title: string
+        }
+        Update: {
+          ai_analysis?: Json | null
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          impact_value?: number | null
+          priority?: string | null
+          status?: string | null
+          tenant_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dominus_insights_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dominus_lead_scores: {
+        Row: {
+          conversion_probability: number | null
+          factors: Json | null
+          id: string
+          lead_id: string | null
+          recommendations: Json | null
+          score: number
+          scored_at: string | null
+          temperature: string
+          tenant_id: string | null
+        }
+        Insert: {
+          conversion_probability?: number | null
+          factors?: Json | null
+          id?: string
+          lead_id?: string | null
+          recommendations?: Json | null
+          score?: number
+          scored_at?: string | null
+          temperature?: string
+          tenant_id?: string | null
+        }
+        Update: {
+          conversion_probability?: number | null
+          factors?: Json | null
+          id?: string
+          lead_id?: string | null
+          recommendations?: Json | null
+          score?: number
+          scored_at?: string | null
+          temperature?: string
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dominus_lead_scores_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dominus_lead_scores_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       financial_records: {
         Row: {
           amount: number
@@ -858,6 +1003,62 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          cpf: string | null
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          is_active: boolean | null
+          last_login_at: string | null
+          phone: string | null
+          pin_code: string | null
+          role: string
+          tenant_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          cpf?: string | null
+          created_at?: string | null
+          email: string
+          full_name: string
+          id: string
+          is_active?: boolean | null
+          last_login_at?: string | null
+          phone?: string | null
+          pin_code?: string | null
+          role?: string
+          tenant_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          cpf?: string | null
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          is_active?: boolean | null
+          last_login_at?: string | null
+          phone?: string | null
+          pin_code?: string | null
+          role?: string
+          tenant_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       proposals: {
         Row: {
           briefing_id: string | null
@@ -932,6 +1133,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      quiz_responses: {
+        Row: {
+          answers: Json | null
+          created_at: string | null
+          email: string | null
+          estimated_loss: number | null
+          id: string
+          leads_per_month: number | null
+          lost_clients_pct: number | null
+          name: string | null
+          niche: string | null
+          phone: string | null
+          response_time: string | null
+          status: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          answers?: Json | null
+          created_at?: string | null
+          email?: string | null
+          estimated_loss?: number | null
+          id?: string
+          leads_per_month?: number | null
+          lost_clients_pct?: number | null
+          name?: string | null
+          niche?: string | null
+          phone?: string | null
+          response_time?: string | null
+          status?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          answers?: Json | null
+          created_at?: string | null
+          email?: string | null
+          estimated_loss?: number | null
+          id?: string
+          leads_per_month?: number | null
+          lost_clients_pct?: number | null
+          name?: string | null
+          niche?: string | null
+          phone?: string | null
+          response_time?: string | null
+          status?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
       }
       reports: {
         Row: {
@@ -1263,6 +1518,59 @@ export type Database = {
           },
         ]
       }
+      subscriptions: {
+        Row: {
+          created_at: string | null
+          current_period_end: string | null
+          current_period_start: string | null
+          gateway: string | null
+          gateway_subscription_id: string | null
+          id: string
+          payment_method: string | null
+          plan: string
+          price: number
+          status: string
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          gateway?: string | null
+          gateway_subscription_id?: string | null
+          id?: string
+          payment_method?: string | null
+          plan?: string
+          price?: number
+          status?: string
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          gateway?: string | null
+          gateway_subscription_id?: string | null
+          id?: string
+          payment_method?: string | null
+          plan?: string
+          price?: number
+          status?: string
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       system_settings: {
         Row: {
           id: string
@@ -1281,6 +1589,86 @@ export type Database = {
           key?: string
           updated_at?: string | null
           value?: Json
+        }
+        Relationships: []
+      }
+      tenant_services: {
+        Row: {
+          activated_at: string | null
+          config: Json | null
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          service_name: string
+          tenant_id: string
+        }
+        Insert: {
+          activated_at?: string | null
+          config?: Json | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          service_name: string
+          tenant_id: string
+        }
+        Update: {
+          activated_at?: string | null
+          config?: Json | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          service_name?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_services_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenants: {
+        Row: {
+          created_at: string | null
+          dominus_active: boolean
+          dominus_plan: string | null
+          id: string
+          max_users: number | null
+          name: string
+          plan: string
+          settings: Json | null
+          slug: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          dominus_active?: boolean
+          dominus_plan?: string | null
+          id?: string
+          max_users?: number | null
+          name: string
+          plan?: string
+          settings?: Json | null
+          slug: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          dominus_active?: boolean
+          dominus_plan?: string | null
+          id?: string
+          max_users?: number | null
+          name?: string
+          plan?: string
+          settings?: Json | null
+          slug?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -1320,15 +1708,40 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_tenant_id: { Args: { _user_id: string }; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "manager" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1455,6 +1868,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "manager", "user"],
+    },
   },
 } as const
