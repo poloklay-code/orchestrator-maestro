@@ -30,6 +30,30 @@ const PRESET_THEMES = [
     name: "Purple Haze", desc: "Misterioso e sofisticado", preview: "from-purple-900/40 to-slate-950",
     vars: { "--background": "270 30% 6%", "--primary": "270 75% 55%", "--accent": "300 70% 60%", "--card": "270 25% 10%", "--border": "270 15% 18%" },
   },
+  {
+    name: "Midnight Rose", desc: "Elegância noturna rosé", preview: "from-pink-900/40 to-slate-950",
+    vars: { "--background": "340 25% 5%", "--primary": "340 70% 55%", "--accent": "320 60% 50%", "--card": "340 20% 9%", "--border": "340 15% 16%" },
+  },
+  {
+    name: "Arctic Frost", desc: "Clean e gelado", preview: "from-sky-100/40 to-slate-50",
+    vars: { "--background": "210 30% 95%", "--primary": "210 80% 45%", "--accent": "195 70% 50%", "--card": "210 25% 98%", "--border": "210 15% 88%", "--foreground": "210 30% 10%", "--muted-foreground": "210 15% 40%", "--secondary": "210 20% 92%", "--card-foreground": "210 30% 10%" },
+  },
+  {
+    name: "Solar Flare", desc: "Energia solar intensa", preview: "from-orange-900/40 to-zinc-950",
+    vars: { "--background": "20 30% 5%", "--primary": "25 95% 55%", "--accent": "40 90% 50%", "--card": "20 25% 9%", "--border": "20 15% 16%" },
+  },
+  {
+    name: "Phantom Dark", desc: "Ultra dark stealth", preview: "from-zinc-900 to-black",
+    vars: { "--background": "0 0% 3%", "--primary": "0 0% 70%", "--accent": "0 0% 50%", "--card": "0 0% 6%", "--border": "0 0% 12%" },
+  },
+  {
+    name: "Titanium Steel", desc: "Industrial metálico", preview: "from-slate-700/40 to-slate-950",
+    vars: { "--background": "215 20% 8%", "--primary": "215 30% 60%", "--accent": "200 40% 55%", "--card": "215 18% 12%", "--border": "215 12% 20%" },
+  },
+  {
+    name: "Forest Mystic", desc: "Verde profundo natural", preview: "from-green-900/40 to-zinc-950",
+    vars: { "--background": "140 30% 4%", "--primary": "140 60% 40%", "--accent": "80 50% 45%", "--card": "140 25% 8%", "--border": "140 15% 15%" },
+  },
 ];
 
 export default function Themes() {
