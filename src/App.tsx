@@ -3,8 +3,17 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+
+// Auth & Guards
 import AuthPage from "./pages/AuthPage";
+import AdminRoute from "./components/guards/AdminRoute";
+import UserRoute from "./components/guards/UserRoute";
+
+// Layouts
 import DashboardShell from "./components/DashboardShell";
+import UserShell from "./components/layouts/UserShell";
+
+// Admin pages
 import DashboardOverview from "./pages/DashboardOverview";
 import MonitoringDashboard from "./pages/MonitoringDashboard";
 import StrategicMemory from "./pages/StrategicMemory";
@@ -42,14 +51,33 @@ import ClientBriefing from "./pages/ClientBriefing";
 import LeadManager from "./pages/LeadManager";
 import AISalesAgent from "./pages/AISalesAgent";
 import DominusAI from "./pages/DominusAI";
+
+// User pages
+import UserDominus from "./pages/user/UserDominus";
+import UserProfile from "./pages/user/UserProfile";
+import UserSettings from "./pages/user/UserSettings";
+
+// Public pages
 import LandingPage from "./pages/LandingPage";
 import QuizPage from "./pages/QuizPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-function DashboardLayout({ children }: { children: React.ReactNode }) {
-  return <DashboardShell>{children}</DashboardShell>;
+function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AdminRoute>
+      <DashboardShell>{children}</DashboardShell>
+    </AdminRoute>
+  );
+}
+
+function UserLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <UserRoute>
+      <UserShell>{children}</UserShell>
+    </UserRoute>
+  );
 }
 
 const App = () => (
@@ -59,47 +87,59 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          {/* Public */}
           <Route path="/" element={<AuthPage />} />
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/quiz" element={<QuizPage />} />
-          <Route path="/dashboard" element={<DashboardLayout><DashboardOverview /></DashboardLayout>} />
-          <Route path="/dashboard/dominus" element={<DashboardLayout><DominusAI /></DashboardLayout>} />
-          <Route path="/dashboard/command-center" element={<DashboardLayout><AICommandCenter /></DashboardLayout>} />
-          <Route path="/dashboard/production" element={<DashboardLayout><AIProductionCenter /></DashboardLayout>} />
-          <Route path="/dashboard/workflows" element={<DashboardLayout><WorkflowViewer /></DashboardLayout>} />
-          <Route path="/dashboard/operations" element={<DashboardLayout><AIOperationsVisualizer /></DashboardLayout>} />
-          <Route path="/dashboard/themes" element={<DashboardLayout><Themes /></DashboardLayout>} />
-          <Route path="/dashboard/strategy" element={<DashboardLayout><StrategyEngine /></DashboardLayout>} />
-          <Route path="/dashboard/roi" element={<DashboardLayout><ROISimulator /></DashboardLayout>} />
-          <Route path="/dashboard/competitors" element={<DashboardLayout><CompetitorRadar /></DashboardLayout>} />
-          <Route path="/dashboard/opportunities" element={<DashboardLayout><OpportunityDetector /></DashboardLayout>} />
-          <Route path="/dashboard/auto-scale" element={<DashboardLayout><AutoScaleAI /></DashboardLayout>} />
-          <Route path="/dashboard/contracts" element={<DashboardLayout><ContractsManager /></DashboardLayout>} />
-          <Route path="/dashboard/risk" element={<DashboardLayout><ClientRiskAnalyzer /></DashboardLayout>} />
-          <Route path="/dashboard/briefing" element={<DashboardLayout><ClientBriefing /></DashboardLayout>} />
-          <Route path="/dashboard/leads" element={<DashboardLayout><LeadManager /></DashboardLayout>} />
-          <Route path="/dashboard/sales-agent" element={<DashboardLayout><AISalesAgent /></DashboardLayout>} />
-          <Route path="/dashboard/monitoring" element={<DashboardLayout><MonitoringDashboard /></DashboardLayout>} />
-          <Route path="/dashboard/memory" element={<DashboardLayout><StrategicMemory /></DashboardLayout>} />
-          <Route path="/dashboard/integrations" element={<DashboardLayout><IntegrationsHub /></DashboardLayout>} />
-          <Route path="/dashboard/reports" element={<DashboardLayout><ReportsPanel /></DashboardLayout>} />
-          <Route path="/dashboard/settings" element={<DashboardLayout><SettingsPanel /></DashboardLayout>} />
-          <Route path="/themes" element={<DashboardLayout><Themes /></DashboardLayout>} />
-          <Route path="/dashboard/clients" element={<DashboardLayout><ClientsManager /></DashboardLayout>} />
-          <Route path="/dashboard/services" element={<DashboardLayout><ServicesManager /></DashboardLayout>} />
-          <Route path="/dashboard/governance" element={<DashboardLayout><GovernancePanel /></DashboardLayout>} />
-          <Route path="/dashboard/audit" element={<DashboardLayout><AuditLog /></DashboardLayout>} />
-          <Route path="/dashboard/automations" element={<DashboardLayout><AutomationsManager /></DashboardLayout>} />
-          <Route path="/dashboard/copymaster" element={<DashboardLayout><CopyMasterPanel /></DashboardLayout>} />
-          <Route path="/dashboard/proposals" element={<DashboardLayout><ProposalsManager /></DashboardLayout>} />
-          <Route path="/dashboard/financial" element={<DashboardLayout><FinancialPanel /></DashboardLayout>} />
-          <Route path="/dashboard/credentials" element={<DashboardLayout><CredentialsPanel /></DashboardLayout>} />
-          <Route path="/dashboard/google-business" element={<DashboardLayout><GoogleBusinessPanel /></DashboardLayout>} />
-          <Route path="/dashboard/assistant" element={<DashboardLayout><AssistantChat /></DashboardLayout>} />
-          <Route path="/dashboard/install" element={<DashboardLayout><InstallPanel /></DashboardLayout>} />
-          <Route path="/dashboard/affiliates" element={<DashboardLayout><AffiliatesManager /></DashboardLayout>} />
-          <Route path="/dashboard/api-keys" element={<DashboardLayout><ApiKeysPanel /></DashboardLayout>} />
-          <Route path="/dashboard/agent-forge" element={<DashboardLayout><AgentForgePanel /></DashboardLayout>} />
+
+          {/* ===== USER PANEL (/app/*) ===== */}
+          <Route path="/app/dominus" element={<UserLayout><UserDominus /></UserLayout>} />
+          <Route path="/app/profile" element={<UserLayout><UserProfile /></UserLayout>} />
+          <Route path="/app/settings" element={<UserLayout><UserSettings /></UserLayout>} />
+
+          {/* ===== ADMIN PANEL (/admin/*) ===== */}
+          <Route path="/admin/dashboard" element={<AdminLayout><DashboardOverview /></AdminLayout>} />
+          <Route path="/admin/dominus" element={<AdminLayout><DominusAI /></AdminLayout>} />
+          <Route path="/admin/command-center" element={<AdminLayout><AICommandCenter /></AdminLayout>} />
+          <Route path="/admin/production" element={<AdminLayout><AIProductionCenter /></AdminLayout>} />
+          <Route path="/admin/workflows" element={<AdminLayout><WorkflowViewer /></AdminLayout>} />
+          <Route path="/admin/operations" element={<AdminLayout><AIOperationsVisualizer /></AdminLayout>} />
+          <Route path="/admin/themes" element={<AdminLayout><Themes /></AdminLayout>} />
+          <Route path="/admin/strategy" element={<AdminLayout><StrategyEngine /></AdminLayout>} />
+          <Route path="/admin/roi" element={<AdminLayout><ROISimulator /></AdminLayout>} />
+          <Route path="/admin/competitors" element={<AdminLayout><CompetitorRadar /></AdminLayout>} />
+          <Route path="/admin/opportunities" element={<AdminLayout><OpportunityDetector /></AdminLayout>} />
+          <Route path="/admin/auto-scale" element={<AdminLayout><AutoScaleAI /></AdminLayout>} />
+          <Route path="/admin/contracts" element={<AdminLayout><ContractsManager /></AdminLayout>} />
+          <Route path="/admin/risk" element={<AdminLayout><ClientRiskAnalyzer /></AdminLayout>} />
+          <Route path="/admin/briefing" element={<AdminLayout><ClientBriefing /></AdminLayout>} />
+          <Route path="/admin/leads" element={<AdminLayout><LeadManager /></AdminLayout>} />
+          <Route path="/admin/sales-agent" element={<AdminLayout><AISalesAgent /></AdminLayout>} />
+          <Route path="/admin/monitoring" element={<AdminLayout><MonitoringDashboard /></AdminLayout>} />
+          <Route path="/admin/memory" element={<AdminLayout><StrategicMemory /></AdminLayout>} />
+          <Route path="/admin/integrations" element={<AdminLayout><IntegrationsHub /></AdminLayout>} />
+          <Route path="/admin/reports" element={<AdminLayout><ReportsPanel /></AdminLayout>} />
+          <Route path="/admin/settings" element={<AdminLayout><SettingsPanel /></AdminLayout>} />
+          <Route path="/admin/clients" element={<AdminLayout><ClientsManager /></AdminLayout>} />
+          <Route path="/admin/services" element={<AdminLayout><ServicesManager /></AdminLayout>} />
+          <Route path="/admin/governance" element={<AdminLayout><GovernancePanel /></AdminLayout>} />
+          <Route path="/admin/audit" element={<AdminLayout><AuditLog /></AdminLayout>} />
+          <Route path="/admin/automations" element={<AdminLayout><AutomationsManager /></AdminLayout>} />
+          <Route path="/admin/copymaster" element={<AdminLayout><CopyMasterPanel /></AdminLayout>} />
+          <Route path="/admin/proposals" element={<AdminLayout><ProposalsManager /></AdminLayout>} />
+          <Route path="/admin/financial" element={<AdminLayout><FinancialPanel /></AdminLayout>} />
+          <Route path="/admin/credentials" element={<AdminLayout><CredentialsPanel /></AdminLayout>} />
+          <Route path="/admin/google-business" element={<AdminLayout><GoogleBusinessPanel /></AdminLayout>} />
+          <Route path="/admin/assistant" element={<AdminLayout><AssistantChat /></AdminLayout>} />
+          <Route path="/admin/install" element={<AdminLayout><InstallPanel /></AdminLayout>} />
+          <Route path="/admin/affiliates" element={<AdminLayout><AffiliatesManager /></AdminLayout>} />
+          <Route path="/admin/api-keys" element={<AdminLayout><ApiKeysPanel /></AdminLayout>} />
+          <Route path="/admin/agent-forge" element={<AdminLayout><AgentForgePanel /></AdminLayout>} />
+
+          {/* Legacy redirects — keep old /dashboard paths working */}
+          <Route path="/dashboard" element={<AdminLayout><DashboardOverview /></AdminLayout>} />
+          <Route path="/dashboard/*" element={<AdminLayout><DashboardOverview /></AdminLayout>} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

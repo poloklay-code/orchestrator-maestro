@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useThemeStore } from "@/stores/themeStore";
 import OrchestratorBust from "@/components/OrchestratorBust";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { ShieldAlert, Eye, EyeOff, ArrowRight, UserPlus, LogIn } from "lucide-react";
 
 export default function AuthPage() {
@@ -20,6 +21,18 @@ export default function AuthPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const redirectByRole = async (userId: string) => {
+    // Check if admin via DB
+    const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
+    if (isAdmin) {
+      localStorage.setItem("auth_role", "admin");
+      navigate("/admin/dashboard");
+    } else {
+      localStorage.setItem("auth_role", "user");
+      navigate("/app/dominus");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -27,16 +40,16 @@ export default function AuthPage() {
 
     try {
       if (mode === "login") {
-        // Check admin credentials first (legacy support)
+        // Legacy admin check
         if (email === "keomatiago@gmail.com" && password === "834589") {
           localStorage.setItem("auth_role", "admin");
           localStorage.setItem("auth_user", email);
           toast.success("Acesso autorizado — Bem-vindo, Comandante!");
-          navigate("/dashboard");
+          navigate("/admin/dashboard");
           return;
         }
 
-        const { error: signInError } = await signIn(email, password);
+        const { data, error: signInError } = await signIn(email, password);
         if (signInError) {
           setError(signInError.message === "Invalid login credentials"
             ? "Credenciais inválidas. Verifique email e senha."
@@ -44,7 +57,11 @@ export default function AuthPage() {
           return;
         }
         toast.success("Login realizado com sucesso!");
-        navigate("/dashboard");
+        if (data?.user) {
+          await redirectByRole(data.user.id);
+        } else {
+          navigate("/app/dominus");
+        }
       } else {
         if (!fullName.trim()) { setError("Nome completo é obrigatório"); return; }
         const { error: signUpError } = await signUp(email, password, fullName, cpf);
