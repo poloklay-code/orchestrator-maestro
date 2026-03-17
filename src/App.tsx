@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Login from "./pages/Login";
+import AuthPage from "./pages/AuthPage";
 import DashboardShell from "./components/DashboardShell";
 import DashboardOverview from "./pages/DashboardOverview";
 import MonitoringDashboard from "./pages/MonitoringDashboard";
@@ -41,6 +41,9 @@ import AIOperationsVisualizer from "./pages/AIOperationsVisualizer";
 import ClientBriefing from "./pages/ClientBriefing";
 import LeadManager from "./pages/LeadManager";
 import AISalesAgent from "./pages/AISalesAgent";
+import DominusAI from "./pages/DominusAI";
+import LandingPage from "./pages/LandingPage";
+import QuizPage from "./pages/QuizPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -56,8 +59,11 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<AuthPage />} />
+          <Route path="/landing" element={<LandingPage />} />
+          <Route path="/quiz" element={<QuizPage />} />
           <Route path="/dashboard" element={<DashboardLayout><DashboardOverview /></DashboardLayout>} />
+          <Route path="/dashboard/dominus" element={<DashboardLayout><DominusAI /></DashboardLayout>} />
           <Route path="/dashboard/command-center" element={<DashboardLayout><AICommandCenter /></DashboardLayout>} />
           <Route path="/dashboard/production" element={<DashboardLayout><AIProductionCenter /></DashboardLayout>} />
           <Route path="/dashboard/workflows" element={<DashboardLayout><WorkflowViewer /></DashboardLayout>} />

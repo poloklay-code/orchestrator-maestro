@@ -13,6 +13,12 @@ const adminOnlySections = ["SISTEMA"];
 
 const navSections = [
   {
+    title: "DOMINUS AI",
+    items: [
+      { href: "/dashboard/dominus", label: "DOMINUS AI", icon: Brain },
+    ],
+  },
+  {
     title: "COMANDO",
     items: [
       { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
