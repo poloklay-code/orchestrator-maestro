@@ -244,7 +244,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               )}
             </div>
 
-            <Link to="/dashboard/assistant" className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 rounded-lg text-primary text-xs hover:bg-primary/20 transition-all">
+            <Link to="/admin/assistant" className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 rounded-lg text-primary text-xs hover:bg-primary/20 transition-all">
               <MessageSquare className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Assistente</span>
             </Link>
