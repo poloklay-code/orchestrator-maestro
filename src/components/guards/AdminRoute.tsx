@@ -13,15 +13,7 @@ export default function AdminRoute({ children }: { children: React.ReactNode }) 
     if (loading) return;
     if (!user) { navigate("/"); return; }
 
-    // Check legacy admin
-    const legacyRole = localStorage.getItem("auth_role");
-    if (legacyRole === "admin") {
-      setAuthorized(true);
-      setChecking(false);
-      return;
-    }
-
-    // Check DB role
+    // Check DB role only
     supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }).then(({ data }) => {
       if (data) {
         setAuthorized(true);
