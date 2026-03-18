@@ -51,11 +51,19 @@ import ClientBriefing from "./pages/ClientBriefing";
 import LeadManager from "./pages/LeadManager";
 import AISalesAgent from "./pages/AISalesAgent";
 import DominusAI from "./pages/DominusAI";
+import MarketPrediction from "./pages/MarketPrediction";
 
 // User pages
 import UserDominus from "./pages/user/UserDominus";
 import UserProfile from "./pages/user/UserProfile";
 import UserSettings from "./pages/user/UserSettings";
+import UserLeads from "./pages/user/UserLeads";
+import UserSales from "./pages/user/UserSales";
+import UserCampaigns from "./pages/user/UserCampaigns";
+import UserReports from "./pages/user/UserReports";
+import UserPayments from "./pages/user/UserPayments";
+import UserChat from "./pages/user/UserChat";
+import UserRequests from "./pages/user/UserRequests";
 
 // Public pages
 import LandingPage from "./pages/LandingPage";
@@ -94,6 +102,13 @@ const App = () => (
 
           {/* ===== USER PANEL (/app/*) ===== */}
           <Route path="/app/dominus" element={<UserLayout><UserDominus /></UserLayout>} />
+          <Route path="/app/leads" element={<UserLayout><UserLeads /></UserLayout>} />
+          <Route path="/app/sales" element={<UserLayout><UserSales /></UserLayout>} />
+          <Route path="/app/campaigns" element={<UserLayout><UserCampaigns /></UserLayout>} />
+          <Route path="/app/reports" element={<UserLayout><UserReports /></UserLayout>} />
+          <Route path="/app/chat" element={<UserLayout><UserChat /></UserLayout>} />
+          <Route path="/app/requests" element={<UserLayout><UserRequests /></UserLayout>} />
+          <Route path="/app/payments" element={<UserLayout><UserPayments /></UserLayout>} />
           <Route path="/app/profile" element={<UserLayout><UserProfile /></UserLayout>} />
           <Route path="/app/settings" element={<UserLayout><UserSettings /></UserLayout>} />
 
@@ -115,6 +130,7 @@ const App = () => (
           <Route path="/admin/briefing" element={<AdminLayout><ClientBriefing /></AdminLayout>} />
           <Route path="/admin/leads" element={<AdminLayout><LeadManager /></AdminLayout>} />
           <Route path="/admin/sales-agent" element={<AdminLayout><AISalesAgent /></AdminLayout>} />
+          <Route path="/admin/market-prediction" element={<AdminLayout><MarketPrediction /></AdminLayout>} />
           <Route path="/admin/monitoring" element={<AdminLayout><MonitoringDashboard /></AdminLayout>} />
           <Route path="/admin/memory" element={<AdminLayout><StrategicMemory /></AdminLayout>} />
           <Route path="/admin/integrations" element={<AdminLayout><IntegrationsHub /></AdminLayout>} />
@@ -136,7 +152,7 @@ const App = () => (
           <Route path="/admin/api-keys" element={<AdminLayout><ApiKeysPanel /></AdminLayout>} />
           <Route path="/admin/agent-forge" element={<AdminLayout><AgentForgePanel /></AdminLayout>} />
 
-          {/* Legacy redirects — keep old /dashboard paths working */}
+          {/* Legacy redirects */}
           <Route path="/dashboard" element={<AdminLayout><DashboardOverview /></AdminLayout>} />
           <Route path="/dashboard/*" element={<AdminLayout><DashboardOverview /></AdminLayout>} />
 

@@ -111,19 +111,15 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const navigate = useNavigate();
   const { profileName, profileSlogan, profileAvatar, programName, programVersion } = useThemeStore();
 
-  const authRole = localStorage.getItem("auth_role") || "admin";
-  const isAdmin = authRole === "admin";
-  const userName = isAdmin ? profileName : (localStorage.getItem("auth_user_name") || "Usuário");
+  const { signOut } = useAuth();
+  const isAdmin = true; // DashboardShell is only used inside AdminRoute
+  const userName = profileName;
 
-  useEffect(() => {
-    const authed = localStorage.getItem("auth_role");
-    if (!authed) navigate("/");
-  }, [navigate]);
-
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem("auth_role");
     localStorage.removeItem("auth_user");
     localStorage.removeItem("auth_user_name");
+    await signOut();
     navigate("/");
   };
 
