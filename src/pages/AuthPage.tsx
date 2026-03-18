@@ -40,15 +40,6 @@ export default function AuthPage() {
 
     try {
       if (mode === "login") {
-        // Legacy admin check
-        if (email === "keomatiago@gmail.com" && password === "834589") {
-          localStorage.setItem("auth_role", "admin");
-          localStorage.setItem("auth_user", email);
-          toast.success("Acesso autorizado — Bem-vindo, Comandante!");
-          navigate("/admin/dashboard");
-          return;
-        }
-
         const { data, error: signInError } = await signIn(email, password);
         if (signInError) {
           setError(signInError.message === "Invalid login credentials"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import {
   LayoutDashboard, Users, Briefcase, Activity, Shield, Bot, Link2, FileText,
@@ -6,6 +6,8 @@ import {
   BarChart3, PenTool, Brain, Download, DollarSign, Key, MapPin, Boxes, Bell, UserCog, Radio,
   Factory, GitBranch, Compass, Calculator, Radar, Sparkles, Rocket, FileSignature, ShieldAlert, Eye, Palette,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import OrchestratorBust from "@/components/OrchestratorBust";
 import { useThemeStore } from "@/stores/themeStore";
 
@@ -16,15 +18,16 @@ const navSections = [
     title: "DOMINUS AI",
     items: [
       { href: "/admin/dominus", label: "DOMINUS AI", icon: Brain },
+      { href: "/admin/market-prediction", label: "Market Prediction", icon: Sparkles },
     ],
   },
   {
     title: "COMANDO",
     items: [
-      { href: "/admin/dashboard", label: "Painel", icon: LayoutDashboard },
+      { href: "/admin/dashboard", label: "Painel Global", icon: LayoutDashboard },
       { href: "/admin/command-center", label: "AI Command Center", icon: Radio },
-      { href: "/admin/production", label: "Produção IA", icon: Factory },
-      { href: "/admin/workflows", label: "Workflows", icon: GitBranch },
+      { href: "/admin/production", label: "AI Production Center", icon: Factory },
+      { href: "/admin/workflows", label: "Workflow Viewer", icon: GitBranch },
       { href: "/admin/operations", label: "AI Operations", icon: Eye },
     ],
   },
@@ -34,7 +37,7 @@ const navSections = [
       { href: "/admin/strategy", label: "Strategy Engine", icon: Compass },
       { href: "/admin/roi", label: "ROI Simulator", icon: Calculator },
       { href: "/admin/competitors", label: "Competitor Radar", icon: Radar },
-      { href: "/admin/opportunities", label: "Oportunidades", icon: Sparkles },
+      { href: "/admin/opportunities", label: "Opportunity Detector", icon: Sparkles },
       { href: "/admin/auto-scale", label: "Auto Scale AI", icon: Rocket },
     ],
   },
@@ -47,9 +50,9 @@ const navSections = [
       { href: "/admin/automations", label: "Automações", icon: Zap },
       { href: "/admin/briefing", label: "Briefing & Intake", icon: FileText },
       { href: "/admin/leads", label: "Gestão de Leads", icon: Users },
-      { href: "/admin/sales-agent", label: "Agente de Vendas", icon: Crown },
-      { href: "/admin/copymaster", label: "CopyMaster", icon: PenTool },
-      { href: "/admin/google-business", label: "Google Negócio", icon: MapPin },
+      { href: "/admin/sales-agent", label: "Agente de Vendas IA", icon: Crown },
+      { href: "/admin/copymaster", label: "CopyMaster AI", icon: PenTool },
+      { href: "/admin/google-business", label: "Google Meu Negócio IA", icon: MapPin },
       { href: "/admin/affiliates", label: "Afiliados", icon: Store },
     ],
   },
@@ -67,15 +70,15 @@ const navSections = [
       { href: "/admin/monitoring", label: "Monitoramento IA", icon: Activity },
       { href: "/admin/memory", label: "Memória Estratégica", icon: Brain },
       { href: "/admin/reports", label: "Relatórios", icon: BarChart3 },
-      { href: "/admin/agent-forge", label: "Agent Forge", icon: Boxes },
-      { href: "/admin/assistant", label: "Assistente IA", icon: Bot },
+      { href: "/admin/agent-forge", label: "Agent Builder", icon: Boxes },
+      { href: "/admin/assistant", label: "Maestro AI Chat", icon: Bot },
     ],
   },
   {
     title: "SISTEMA",
     items: [
       { href: "/admin/governance", label: "Governança", icon: Crown },
-      { href: "/admin/audit", label: "Auditoria", icon: Shield },
+      { href: "/admin/audit", label: "Logs & Auditoria", icon: Shield },
       { href: "/admin/credentials", label: "Credenciais", icon: UserCog },
       { href: "/admin/api-keys", label: "Chaves de API", icon: Key },
       { href: "/admin/integrations", label: "Integrações", icon: Link2 },
@@ -108,19 +111,15 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const navigate = useNavigate();
   const { profileName, profileSlogan, profileAvatar, programName, programVersion } = useThemeStore();
 
-  const authRole = localStorage.getItem("auth_role") || "admin";
-  const isAdmin = authRole === "admin";
-  const userName = isAdmin ? profileName : (localStorage.getItem("auth_user_name") || "Usuário");
+  const { signOut } = useAuth();
+  const isAdmin = true; // DashboardShell is only used inside AdminRoute
+  const userName = profileName;
 
-  useEffect(() => {
-    const authed = localStorage.getItem("auth_role");
-    if (!authed) navigate("/");
-  }, [navigate]);
-
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem("auth_role");
     localStorage.removeItem("auth_user");
     localStorage.removeItem("auth_user_name");
+    await signOut();
     navigate("/");
   };
 
