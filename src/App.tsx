@@ -65,6 +65,7 @@ import UserReports from "./pages/user/UserReports";
 import UserPayments from "./pages/user/UserPayments";
 import UserChat from "./pages/user/UserChat";
 import UserRequests from "./pages/user/UserRequests";
+import UserServices from "./pages/user/UserServices";
 
 // Public pages
 import LandingPage from "./pages/LandingPage";
