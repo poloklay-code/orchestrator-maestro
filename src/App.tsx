@@ -154,6 +154,7 @@ const App = () => (
           <Route path="/admin/affiliates" element={<AdminLayout><AffiliatesManager /></AdminLayout>} />
           <Route path="/admin/api-keys" element={<AdminLayout><ApiKeysPanel /></AdminLayout>} />
           <Route path="/admin/agent-forge" element={<AdminLayout><AgentForgePanel /></AdminLayout>} />
+          <Route path="/admin/modules" element={<AdminLayout><AdminModules /></AdminLayout>} />
 
           {/* Legacy redirects */}
           <Route path="/dashboard" element={<AdminLayout><DashboardOverview /></AdminLayout>} />
