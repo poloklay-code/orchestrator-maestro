@@ -52,6 +52,7 @@ import LeadManager from "./pages/LeadManager";
 import AISalesAgent from "./pages/AISalesAgent";
 import DominusAI from "./pages/DominusAI";
 import MarketPrediction from "./pages/MarketPrediction";
+import AdminModules from "./pages/AdminModules";
 
 // User pages
 import UserDominus from "./pages/user/UserDominus";
@@ -64,6 +65,7 @@ import UserReports from "./pages/user/UserReports";
 import UserPayments from "./pages/user/UserPayments";
 import UserChat from "./pages/user/UserChat";
 import UserRequests from "./pages/user/UserRequests";
+import UserServices from "./pages/user/UserServices";
 
 // Public pages
 import LandingPage from "./pages/LandingPage";
@@ -110,6 +112,7 @@ const App = () => (
           <Route path="/app/requests" element={<UserLayout><UserRequests /></UserLayout>} />
           <Route path="/app/payments" element={<UserLayout><UserPayments /></UserLayout>} />
           <Route path="/app/profile" element={<UserLayout><UserProfile /></UserLayout>} />
+          <Route path="/app/services" element={<UserLayout><UserServices /></UserLayout>} />
           <Route path="/app/settings" element={<UserLayout><UserSettings /></UserLayout>} />
 
           {/* ===== ADMIN PANEL (/admin/*) ===== */}
@@ -151,6 +154,7 @@ const App = () => (
           <Route path="/admin/affiliates" element={<AdminLayout><AffiliatesManager /></AdminLayout>} />
           <Route path="/admin/api-keys" element={<AdminLayout><ApiKeysPanel /></AdminLayout>} />
           <Route path="/admin/agent-forge" element={<AdminLayout><AgentForgePanel /></AdminLayout>} />
+          <Route path="/admin/modules" element={<AdminLayout><AdminModules /></AdminLayout>} />
 
           {/* Legacy redirects */}
           <Route path="/dashboard" element={<AdminLayout><DashboardOverview /></AdminLayout>} />
