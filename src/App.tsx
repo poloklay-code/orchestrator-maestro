@@ -112,6 +112,7 @@ const App = () => (
           <Route path="/app/requests" element={<UserLayout><UserRequests /></UserLayout>} />
           <Route path="/app/payments" element={<UserLayout><UserPayments /></UserLayout>} />
           <Route path="/app/profile" element={<UserLayout><UserProfile /></UserLayout>} />
+          <Route path="/app/services" element={<UserLayout><UserServices /></UserLayout>} />
           <Route path="/app/settings" element={<UserLayout><UserSettings /></UserLayout>} />
 
           {/* ===== ADMIN PANEL (/admin/*) ===== */}
