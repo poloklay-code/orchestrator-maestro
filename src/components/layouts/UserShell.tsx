@@ -21,6 +21,7 @@ const userNav = [
     { href: "/app/requests", label: "Solicitações", icon: MessageSquarePlus },
   ]},
   { section: "CONTA", items: [
+    { href: "/app/services", label: "Meus Serviços", icon: ShoppingCart },
     { href: "/app/payments", label: "Pagamentos", icon: CreditCard },
     { href: "/app/profile", label: "Meu Perfil", icon: User },
     { href: "/app/settings", label: "Configurações", icon: Settings },

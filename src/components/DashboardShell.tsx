@@ -60,6 +60,7 @@ const navSections = [
     title: "FINANCEIRO",
     items: [
       { href: "/admin/financial", label: "Financeiro", icon: DollarSign },
+      { href: "/admin/modules", label: "Módulos & Receita", icon: Boxes },
       { href: "/admin/contracts", label: "Contratos", icon: FileSignature },
       { href: "/admin/proposals", label: "Propostas", icon: FileText },
     ],
