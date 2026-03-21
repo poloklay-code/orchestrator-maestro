@@ -52,6 +52,7 @@ import LeadManager from "./pages/LeadManager";
 import AISalesAgent from "./pages/AISalesAgent";
 import DominusAI from "./pages/DominusAI";
 import MarketPrediction from "./pages/MarketPrediction";
+import AdminModules from "./pages/AdminModules";
 
 // User pages
 import UserDominus from "./pages/user/UserDominus";
