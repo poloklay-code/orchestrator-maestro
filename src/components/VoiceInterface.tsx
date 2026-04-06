@@ -11,7 +11,7 @@ export function VoiceInterface() {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [transcript, setTranscript] = useState("");
   const [err, setErr] = useState("");
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   const speak = useCallback((text: string) => {
     if (!("speechSynthesis" in window)) { setStatus("idle"); return; }
