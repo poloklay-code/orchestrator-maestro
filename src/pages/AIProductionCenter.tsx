@@ -94,6 +94,18 @@ const AI_MODULES: AIModule[] = [
   { id: "clone", name: "Clone Digital", description: "Analisa seu estilo e cria um clone digital que escreve como você",
     icon: Bot, action: "build_clone", color: "text-rose-400", category: "IA Pessoal",
     fields: [{ key: "userName", label: "Seu Nome", type: "text" }, { key: "samples", label: "Amostras de texto (separar por |||)", type: "textarea" }] },
+  { id: "crack_lead", name: "Lead Cracking AI", description: "Enriquece leads com score, segmentação, intenção e melhor abordagem",
+    icon: Users, action: "crack_lead", color: "text-lime-400", category: "Automação IA",
+    fields: [{ key: "rawData", label: "Dados do Lead (JSON ou texto)", type: "textarea" }, { key: "businessNiche", label: "Nicho do Negócio", type: "text" }] },
+  { id: "optimize_copy", name: "Copy Optimizer", description: "Otimiza copies existentes com base em dados de performance reais",
+    icon: Pen, action: "optimize_copy", color: "text-fuchsia-400", category: "Marketing",
+    fields: [{ key: "originalCopy", label: "Copy Original", type: "textarea" }, { key: "ctr", label: "CTR (%)", type: "text" }, { key: "conversions", label: "Conversões", type: "text" }, { key: "feedback", label: "Feedback (opcional)", type: "text" }] },
+  { id: "respond_review", name: "Review Response AI", description: "Gera respostas profissionais para avaliações do Google Meu Negócio",
+    icon: MessageSquare, action: "respond_review", color: "text-sky-400", category: "Marketing",
+    fields: [{ key: "rating", label: "Estrelas (1-5)", type: "text" }, { key: "reviewText", label: "Texto da Avaliação", type: "textarea" }, { key: "authorName", label: "Nome do Autor", type: "text" }, { key: "businessName", label: "Nome do Negócio", type: "text" }] },
+  { id: "manage_budget", name: "Budget Manager AI", description: "Realoca verba automaticamente para onde performa melhor",
+    icon: TrendingUp, action: "manage_budget", color: "text-emerald-400", category: "Tráfego",
+    fields: [{ key: "totalBudget", label: "Budget Total (R$)", type: "text" }, { key: "campaigns", label: "Campanhas (JSON)", type: "textarea" }] },
 ];
 
 export default function AIProductionCenter() {
@@ -131,7 +143,8 @@ export default function AIProductionCenter() {
                    field.key === "totalClients" || field.key === "activeClients" || field.key === "totalBudget" ||
                    field.key === "totalLeads" || field.key === "spent" || field.key === "impressions" ||
                    field.key === "clicks" || field.key === "leads" || field.key === "revenue" ||
-                   field.key === "budget" || field.key === "conversions" || field.key === "spend") {
+                   field.key === "budget" || field.key === "conversions" || field.key === "spend" ||
+                   field.key === "ctr" || field.key === "rating") {
           payload[field.key] = parseFloat(val) || 0;
         } else if (field.key === "currentData") {
           try { payload.currentData = JSON.parse(val); } catch { payload.currentData = { raw: val }; }
