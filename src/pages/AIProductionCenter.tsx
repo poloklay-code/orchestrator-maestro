@@ -143,7 +143,8 @@ export default function AIProductionCenter() {
                    field.key === "totalClients" || field.key === "activeClients" || field.key === "totalBudget" ||
                    field.key === "totalLeads" || field.key === "spent" || field.key === "impressions" ||
                    field.key === "clicks" || field.key === "leads" || field.key === "revenue" ||
-                   field.key === "budget" || field.key === "conversions" || field.key === "spend") {
+                   field.key === "budget" || field.key === "conversions" || field.key === "spend" ||
+                   field.key === "ctr" || field.key === "rating") {
           payload[field.key] = parseFloat(val) || 0;
         } else if (field.key === "currentData") {
           try { payload.currentData = JSON.parse(val); } catch { payload.currentData = { raw: val }; }
